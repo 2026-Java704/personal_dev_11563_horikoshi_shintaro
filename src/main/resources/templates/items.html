@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>商品一覧</title>
+</head>
+
+<body>
+	<h1>商品一覧</h1>
+
+	<a href="/admin/items">全商品</a>
+	<a th:each="genre:${genres}"
+       th:href="@{/admin/items(genreId=${genre.id})}" 
+       th:text="${genre.genreName}"
+       style="margin-right: 5px;"></a>
+
+	<table border="1">
+		<tr>
+			<th>商品ID</th>
+			<th>商品名</th>
+			<th>値段</th>
+			<th>カテゴリ</th>
+			<th>更新</th>
+			<th>削除</th>
+		</tr>
+		<tr th:each="item:${items}">
+			<td th:text="${item.id}"></td>
+			<td th:text="${item.itemName}"></td>
+			<td>[[${item.genre.getSign()}]][[${item.price}]]</td>
+			<td th:text="${item.genre.genreName}"></td>
+			<td>
+				<form th:action = "@{/items/{itemId}/edit(itemId=${item.id})}" method ="get">
+					<button>更新</button>
+				</form>
+			</td>
+			<td>
+				<form th:action = "@{/items/{itemId}/delete(itemId=${item.id})}" method ="post">
+					<button>削除</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+
+</body>
+
+</html>
