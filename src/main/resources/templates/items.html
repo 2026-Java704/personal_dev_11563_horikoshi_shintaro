@@ -25,25 +25,34 @@
 			<th></th>
 		</tr>
 		<tr th:each="item:${items}">
-			<td th:text="${item.addDate}"></td>
-			<td th:text="${item.itemName}"></td>
-			<td th:text="${item.genre.genreName}"></td>
-			<td>[[${item.genre.getSign()}]][[${item.price}]]</td>
-			<td th:text="${item.comment}"></td>
-			<td>
-				<form th:action = "@{/items/{itemId}/edit(itemId=${item.id})}" method ="get">
-					<button>更新</button>
-				</form>
-			</td>
-			<td>
-				<form th:action = "@{/items/{itemId}/delete(itemId=${item.id})}" method ="post">
-					<button>削除</button>
-				</form>
-			</td>
+			<div th:if="${item.user.id} eq ${account.user.id}">
+				<td th:text="${item.addDate}"></td>
+				<td th:text="${item.itemName}"></td>
+				<td th:text="${item.genre.genreName}"></td>
+				<td>[[${item.genre.getSign()}]][[${item.price}]]</td>
+				<td th:text="${item.comment}"></td>
+				<td>
+					<form th:action = "@{/items/{itemId}/edit(itemId=${item.id})}" method ="get">
+						<button>更新</button>
+					</form>
+				</td>
+				<td>
+					<form th:action = "@{/items/{itemId}/delete(itemId=${item.id})}" method ="post">
+						<button>削除</button>
+					</form>
+				</td>
+			</div>
+			
 		</tr>
 	</table>
-	
 	<a href="/items/add">新規登録</a>
+	
+	<br>
+	<h4>今月の収支:[[${allIncomeAndExpensesInThisMonth}]]</h4>
+	<br>
+	<a href="/items/calendar">カレンダービューへ</a>
+	<br>
+	<a href="/logout">ログアウト</a>
 
 </body>
 

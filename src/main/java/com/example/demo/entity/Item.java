@@ -122,4 +122,13 @@ public class Item {
 		this.comment = comment;
 	}
 
+	/**符号付きの収支を返します**/
+	public int getPriceWithSign() {
+		if (genre.getIsIncome()) {
+			return price;
+		} else {
+			return -price;
+		}
+	}
+
 }

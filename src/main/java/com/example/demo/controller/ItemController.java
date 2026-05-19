@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Genre;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.User;
+import com.example.demo.model.Account;
 import com.example.demo.repository.GenreRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.UserRepository;
@@ -20,14 +22,17 @@ import com.example.demo.repository.UserRepository;
 @Controller
 public class ItemController {
 
+	private final Account account;
 	private final UserRepository userRepository;
 	private final GenreRepository genreRepository;
 	private final ItemRepository itemRepository;
 
 	public ItemController(
+			Account account,
 			UserRepository userRepository,
 			GenreRepository genreRepository,
 			ItemRepository itemRepository) {
+		this.account = account;
 		this.userRepository = userRepository;
 		this.genreRepository = genreRepository;
 		this.itemRepository = itemRepository;
@@ -36,6 +41,7 @@ public class ItemController {
 	// 項目一覧表示
 	@GetMapping("/items")
 	public String index(
+			@RequestParam(defaultValue = "") Integer genreId,
 			Model model) {
 
 		// 全ジャンル一覧を取得
@@ -44,8 +50,23 @@ public class ItemController {
 
 		// 商品一覧情報の取得
 		List<Item> itemList = null;
-		itemList = itemRepository.findAll();
+
+		if (genreId != null) {
+			itemList = itemRepository.findByUserIdAndGenreId(account.getUserId(), genreId);
+
+		} else {
+			itemList = itemRepository.findByUserId(account.getUserId());
+		}
+
 		model.addAttribute("items", itemList);
+		model.addAttribute("account", account);
+
+		//今月の収支を計算
+		int allIncomeAndExpensesInThisMonth = 0;
+		for (Item item : itemList) {
+			allIncomeAndExpensesInThisMonth += item.getPriceWithSign();
+		}
+		model.addAttribute("allIncomeAndExpensesInThisMonth", allIncomeAndExpensesInThisMonth);
 
 		return "items";
 	}
@@ -62,17 +83,49 @@ public class ItemController {
 
 	// 新規登録処理
 	@PostMapping("/items/add")
-	public String store(@PathVariable Integer id,
-			@RequestParam String itemName,
-			@RequestParam Integer userId,
+	public String store(
+			@RequestParam(defaultValue = "") String itemName,
 			@RequestParam Integer genreId,
-			@RequestParam Integer price,
-			@RequestParam LocalDate addDate,
-			@RequestParam(required = false) String comment,
+			@RequestParam(defaultValue = "") Integer price,
+			@RequestParam(defaultValue = "") LocalDate addDate,
+			@RequestParam(defaultValue = "") String comment,
 			Model model) {
 
+		// 全ジャンル一覧を取得
+		List<Genre> genreList = genreRepository.findAll();
+		model.addAttribute("genres", genreList);
+
+		List<String> errors = new ArrayList<String>();
+
+		if (price == null) {
+			errors.add("金額を入力してください");
+		} else {
+			if (price < 0) {
+				errors.add("金額を正の値にしてください");
+			}
+		}
+
+		if (errors.size() > 0) {
+			model.addAttribute("itemName", itemName);
+			model.addAttribute("genreId", genreId);
+			model.addAttribute("price", price);
+			model.addAttribute("addDate", addDate);
+			model.addAttribute("comment", comment);
+
+			model.addAttribute("errors", errors);
+			return "addItem";
+		}
+
+		if (itemName.length() <= 0) {
+			itemName = "無題";
+		}
+
+		if (addDate == null) {
+			addDate = LocalDate.now();
+		}
+
 		//itemsテーブルをIDで検索
-		User user = userRepository.findById(userId).get();
+		User user = account.getUser();
 		Genre genre = genreRepository.findById(genreId).get();
 
 		// Itemオブジェクトの生成
@@ -106,17 +159,48 @@ public class ItemController {
 	// 更新処理
 	@PostMapping("/items/{id}/edit")
 	public String edit(@PathVariable Integer id,
-			@RequestParam String itemName,
-			@RequestParam Integer userId,
+			@RequestParam(defaultValue = "") String itemName,
 			@RequestParam Integer genreId,
-			@RequestParam Integer price,
-			@RequestParam LocalDate addDate,
-			@RequestParam(required = false) String comment,
+			@RequestParam(defaultValue = "") Integer price,
+			@RequestParam(defaultValue = "") LocalDate addDate,
+			@RequestParam(defaultValue = "") String comment,
 			Model model) {
 
 		//itemsテーブルをIDで検索
+		Item targetItem = itemRepository.findById(id).get();
+		model.addAttribute("item", targetItem);
+
+		// 全ジャンル一覧を取得
+		List<Genre> genreList = genreRepository.findAll();
+		model.addAttribute("genres", genreList);
+
+		List<String> errors = new ArrayList<String>();
+
+		if (price == null) {
+			errors.add("金額を入力してください");
+		} else {
+			if (price < 0) {
+				errors.add("金額を正の値にしてください");
+			}
+		}
+
+		if (errors.size() > 0) {
+			model.addAttribute("item", targetItem);
+			model.addAttribute("errors", errors);
+			return "editItem";
+		}
+
+		if (itemName.length() <= 0) {
+			itemName = "無題";
+		}
+
+		if (addDate == null) {
+			addDate = LocalDate.now();
+		}
+
+		//itemsテーブルをIDで検索
 		Item item = itemRepository.findById(id).get();
-		User user = userRepository.findById(userId).get();
+		User user = account.getUser();
 		Genre genre = genreRepository.findById(genreId).get();
 		item.changeInfomations(itemName, user, genre, price, addDate, comment);
 
