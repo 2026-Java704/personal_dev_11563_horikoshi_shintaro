@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>項目更新</title>
+</head>
+<body>
+	<h1>商品更新</h1>
+
+	<form th:action="@{/items/{itemId}/edit(itemId=${item.id})}" method="post">
+		<table border="1">
+			<tr>
+				<th>日付</th>
+				<td>
+					<input type="date" name="addDate" th:value="${item.addDate}">
+				</td>
+			</tr>
+			<tr>
+				<th>名前</th>
+				<td>
+					<input type="text" name="itemName" th:value="${item.itemName}">
+				</td>
+			</tr>
+			<tr>
+				<th>ジャンル</th>
+				<td>
+					<select name = "genreId">
+						<option th:each="genre:${genres}" th:value="${genre.id}" th:selected="${item.genre.id} == ${genre.id}">[[${genre.genreName}]]</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>値段</th>
+				<td>
+					<input type="number" name="price" th:value="${item.price}">
+				</td>
+			</tr>
+			<tr>
+				<th>コメント</th>
+				<td>
+					<textarea name="comment" th:text="${item.comment}"></textarea>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="userId" th:value="${item.user.id}">
+		<button>更新</button>
+	</form>
+</body>
+</html>
