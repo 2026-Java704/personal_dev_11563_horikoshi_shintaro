@@ -111,4 +111,15 @@ public class Item {
 		this.comment = comment;
 	}
 
+	/**情報を変えます**/
+	public void changeInfomations(String itemName, User user, Genre genre, Integer price, LocalDate addDate,
+			String comment) {
+		this.itemName = itemName;
+		this.user = user;
+		this.genre = genre;
+		this.price = price;
+		this.addDate = addDate;
+		this.comment = comment;
+	}
+
 }
