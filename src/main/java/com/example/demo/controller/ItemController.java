@@ -218,4 +218,10 @@ public class ItemController {
 
 		return "redirect:/items";
 	}
+
+	// カレンダー画面の表示
+	@GetMapping("/calender")
+	public String showCalendor(Model model) {
+		return "calendorView";
+	}
 }
