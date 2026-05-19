@@ -11,10 +11,6 @@ public class Account {
 
 	private String name; // 名前
 
-	private String address; // 住所
-
-	private String tel; // 電話番号
-
 	private String email; // メールアドレス
 
 	private String password;
@@ -25,22 +21,6 @@ public class Account {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getTel() {
-		return tel;
-	}
-
-	public void setTel(String tel) {
-		this.tel = tel;
 	}
 
 	public String getEmail() {
