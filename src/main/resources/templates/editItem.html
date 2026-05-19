@@ -5,7 +5,14 @@
 <title>項目更新</title>
 </head>
 <body>
-	<h1>商品更新</h1>
+	
+	<div th:if="${errors}">
+		<div th:each="error:${errors}" style="color:red">
+			[[${error}]]
+		</div>
+		<br>
+	</div>
+		
 
 	<form th:action="@{/items/{itemId}/edit(itemId=${item.id})}" method="post">
 		<table border="1">
@@ -42,7 +49,6 @@
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" name="userId" th:value="${item.user.id}">
 		<button>更新</button>
 	</form>
 </body>
