@@ -30,18 +30,19 @@ public class AccountController {
 	}
 
 	// 会員登録画面を表示
-	@GetMapping("/account")
+	@GetMapping("/register")
 	public String create() {
 
 		return "accountForm";
 	}
 
 	// 会員登録を実行
-	@PostMapping("/account")
+	@PostMapping("/register")
 	public String store(
 			@RequestParam(defaultValue = "") String name,
 			@RequestParam(defaultValue = "") String email,
 			@RequestParam(defaultValue = "") String password,
+			@RequestParam(defaultValue = "") String passwordConfirm,
 			Model model) {
 
 		List<String> errors = new ArrayList<String>();
@@ -61,6 +62,10 @@ public class AccountController {
 
 		if (password.length() <= 0) {
 			errors.add("パスワードは必須です");
+		}
+
+		if (!password.equals(passwordConfirm)) {
+			errors.add("パスワードが間違っています");
 		}
 
 		if (errors.size() > 0) {
@@ -94,18 +99,15 @@ public class AccountController {
 			Model model) {
 
 		User targetUser = userRepository.findByEmailAndPassword(email, password);
-		if (targetUser == null) {
+		if (targetUser != null) {
+			account.setUser(targetUser);
+			// 「/items」へのリダイレクト
+			return "redirect:/items";
+
+		} else {
 
 			model.addAttribute("message", "メールアドレスとパスワードが一致しませんでした");
 			return "login";
 		}
-
-		//		 セッション管理されたアカウント情報に名前をセット
-		account.setId(targetUser.getId());
-		account.setName(targetUser.getUserName());
-		account.setEmail(targetUser.getEmail());
-
-		// 「/items」へのリダイレクト
-		return "redirect:/items";
 	}
 }

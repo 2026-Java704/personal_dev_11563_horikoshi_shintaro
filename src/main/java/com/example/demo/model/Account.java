@@ -3,47 +3,31 @@ package com.example.demo.model;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.example.demo.entity.User;
+
 @Component
 @SessionScope
 public class Account {
 
-	private Integer id;
+	/**自分のユーザー**/
+	private User user;
 
-	private String name; // 名前
-
-	private String email; // メールアドレス
-
-	private String password;
-
-	public String getName() {
-		return name;
+	public Account() {
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public User getUser() {
+		return user;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public int getUserId() {
+		return user.getId();
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public String getUserName() {
+		return user.getUserName();
 	}
 }
