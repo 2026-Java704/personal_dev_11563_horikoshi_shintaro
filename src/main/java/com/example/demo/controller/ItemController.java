@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.PersonalDev11563HorikoshiShintaroApplication;
 import com.example.demo.entity.Genre;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.User;
@@ -25,8 +25,6 @@ import com.example.demo.repository.UserRepository;
 @Controller
 public class ItemController {
 
-	private final PersonalDev11563HorikoshiShintaroApplication personalDev11563HorikoshiShintaroApplication;
-
 	private final Account account;
 	private final UserRepository userRepository;
 	private final GenreRepository genreRepository;
@@ -36,13 +34,11 @@ public class ItemController {
 			Account account,
 			UserRepository userRepository,
 			GenreRepository genreRepository,
-			ItemRepository itemRepository,
-			PersonalDev11563HorikoshiShintaroApplication personalDev11563HorikoshiShintaroApplication) {
+			ItemRepository itemRepository) {
 		this.account = account;
 		this.userRepository = userRepository;
 		this.genreRepository = genreRepository;
 		this.itemRepository = itemRepository;
-		this.personalDev11563HorikoshiShintaroApplication = personalDev11563HorikoshiShintaroApplication;
 	}
 
 	// 項目一覧表示
@@ -81,14 +77,14 @@ public class ItemController {
 	// 新規登録画面の表示
 	@GetMapping("/items/add")
 	public String add(
-			@RequestParam(required = false) LocalDate date,
+			@RequestParam(required = false) LocalDate selectedDate,
 			Model model) {
 		// 全ジャンル一覧を取得
 		List<Genre> genreList = genreRepository.findAll();
 		model.addAttribute("genres", genreList);
 
-		if (date != null) {
-			model.addAttribute("addDate", date);
+		if (selectedDate != null) {
+			model.addAttribute("addDate", selectedDate);
 		}
 
 		return "addItem";
@@ -237,23 +233,29 @@ public class ItemController {
 	public String showCalendor(
 			@RequestParam(required = false) Integer id,
 			@RequestParam(required = false) Integer genreId,
-			@RequestParam(required = false) LocalDate date,
+			@RequestParam(defaultValue = "true") boolean showAll,
+			@RequestParam(required = false) LocalDate selectedDate,
+			@RequestParam(required = false) LocalDate showingDate,
 			Model model) {
 
 		// 収入ジャンル一覧を取得
-		List<Genre> genre_incomeList = genreRepository.findAll();
+		List<Genre> genre_incomeList = genreRepository.findByIsIncome(true);
 		model.addAttribute("genres_income", genre_incomeList);
 
 		// 支出ジャンル一覧を取得
-		List<Genre> genre_outcomeList = genreRepository.findAll();
+		List<Genre> genre_outcomeList = genreRepository.findByIsIncome(false);
 		model.addAttribute("genres_outcome", genre_outcomeList);
 
 		List<Item> itemList = new ArrayList<Item>();
-		if (genreId != null)
-			itemList = itemRepository.findByUserIdAndGenreId(account.getUserId(), genreId);
-		else
+		if (showAll) {
 			itemList = itemRepository.findByUserId(account.getUserId());
+		} else {
+			if (genreId != null) {
+				itemList = itemRepository.findByUserIdAndGenreId(account.getUserId(), genreId);
+			}
+		}
 
+		//イベント登録
 		List<Map<String, Object>> events = new ArrayList<>();
 
 		for (Item item : itemList) {
@@ -266,14 +268,43 @@ public class ItemController {
 
 		model.addAttribute("calendarEvents", events);
 
+		//現在選択中のアイテムを送信
 		if (id != null) {
 			Item item = itemRepository.findById(id).get();
 			model.addAttribute("selectedItem", item);
 		}
 
-		if (date != null) {
-			model.addAttribute("date", date);
+		//現在選択中の日付を送信
+		if (selectedDate != null) {
+			model.addAttribute("selectedDate", selectedDate);
 		}
+
+		//現在見ている月を送信
+		LocalDate targetDate = LocalDate.now();
+		if (showingDate != null) {
+			targetDate = showingDate;
+			model.addAttribute("showingDate", showingDate);
+			model.addAttribute("initialDate", showingDate);
+		} else {
+			model.addAttribute("showingDate", LocalDate.now());
+			model.addAttribute("initialDate", LocalDate.now());
+		}
+
+		//本月の収支を計算
+		//最初の日と最後の日
+		LocalDate firstDay = targetDate.withDayOfMonth(1);
+		LocalDate lastDay = targetDate.with(TemporalAdjusters.lastDayOfMonth());
+		//その月の項目を全て取得
+		List<Item> itemListInMonth = itemRepository.findByUserIdAndAddDateBetween(account.getUserId(), firstDay,
+				lastDay);
+
+		//今月の収支を計算
+		int allIncomeAndExpensesInThisMonth = 0;
+		for (Item item : itemListInMonth) {
+			allIncomeAndExpensesInThisMonth += item.getPriceWithSign();
+		}
+		model.addAttribute("allIncomeAndExpensesInThisMonth", allIncomeAndExpensesInThisMonth);
+		model.addAttribute("targetMonth", targetDate.getMonthValue());
 
 		return "calendarView";
 	}

@@ -131,4 +131,9 @@ public class Item {
 		}
 	}
 
+	/**符号付きの収支のStringを返します**/
+	public String getPriceWithSignString() {
+		return genre.getSign() + price;
+	}
+
 }

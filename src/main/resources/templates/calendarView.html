@@ -18,10 +18,12 @@
 <body>
 	<div id="layout01">
 		
-		<a href="/calendar">全項目</a>
+		<a href="/calendar?showAll=true">全項目</a>
 		
 		<br>
 		収入
+		<br>
+		<a href="/calendar?isIncome=true">全ての収入</a>
 		<br>
 		
 		<a th:each="genre:${genres_income}"
@@ -31,6 +33,8 @@
 		  
 		<br>
 		支出
+		<br>
+		<a href="/calendar?isIncome=false">全ての支出</a>
 		<br>
 		
 		<a th:each="genre:${genres_outcome}"
@@ -54,32 +58,77 @@
 			document.addEventListener('DOMContentLoaded', function () {
 				var calendarEl = document.getElementById('calendar');
 				var eventData = /*[[${calendarEvents}]]*/[];
+				
+				var currentMonthDate = null;
 
 				var calendar = new FullCalendar.Calendar(calendarEl, {
 					initialView: 'dayGridMonth',
+					initialDate: /*[[${initialDate}]]*/'',
 					locale: 'ja',
 					events: eventData,
+					
+					customButtons: {
+					    customPrev: {
+					      text: '前月',
+					      click: function() {
+							var date =  new Date(/*[[${showingDate}]]*/'');
+							date.setDate(1);
+							date.setMonth(date.getMonth() - 1);
+							data = new Intl.DateTimeFormat('ja-JP', {
+												    year: 'numeric',
+												    month: '2-digit',
+												    day: '2-digit'
+												  }).format(date).replace(/\//g, '-');
+					        window.location.href = '/calendar?showingDate=' + data;
+					      }
+					    },
+					    customNext: {
+					      text: '次月',
+						  click: function() {
+	  						var date =  new Date(/*[[${showingDate}]]*/'');
+	  						date.setDate(1);
+	  						date.setMonth(date.getMonth() + 1);
+	  						data = new Intl.DateTimeFormat('ja-JP', {
+	  											    year: 'numeric',
+	  											    month: '2-digit',
+	  											    day: '2-digit'
+	  											  }).format(date).replace(/\//g, '-');
+	  				        window.location.href = '/calendar?showingDate=' + data;
+	  				      }
+					    }
+					  },
+					  headerToolbar: {
+					    right: 'customPrev,customNext',
+					    center: 'title',
+						left:''
+					  },
 					
 					eventClick: function(info) {
 					               // Java側から渡した "id" を取得
 					               const eventId = info.event.id;
 					               // IDをパラメータに付けてJava側へ画面遷移
-					               window.location.href = '/calendar?date=' + info.event.startStr + '&id=' + eventId;
+								   var date = /*[[${showingDate}]]*/'';
+					               window.location.href = '/calendar?showingDate='+date + '&selectedDate=' + info.event.startStr + '&id=' + eventId;
 					},
-								   
-				   dateClick: function(info) {
-	   					          window.location.href = '/calendar?date=' + info.dateStr;
-								  }
+					
+				   	dateClick: function(info) {
+									var date = /*[[${showingDate}]]*/'';
+	   					          window.location.href = '/calendar?showingDate='+date+ '&selectedDate=' + info.dateStr ;
+					},
+								  
 					});
 				calendar.render();
 			});
+			
+			var yearMonth = $("#fc-dom-1").text(); 
+			alert(yearMonth);
 		</script>
 		
 		
 	</div>
 	
 	<div id="layout03">
-		<div>[[${date}]]</div>
+		<div>[[${selectedDate}]]</div>
 		
 		<br>
 		
@@ -102,8 +151,12 @@
 			
 		</div>
 	
-		<a th:href="@{/items/add(date=${date})}">新規作成</a>
+		<a th:href="@{/items/add(selectedDate=${selectedDate})}">新規作成</a>
 			
+	</div>
+	
+	<div id="layout04">
+		[[${targetMonth}]]月の収支：[[${allIncomeAndExpensesInThisMonth}]]
 	</div>
 	
 	
