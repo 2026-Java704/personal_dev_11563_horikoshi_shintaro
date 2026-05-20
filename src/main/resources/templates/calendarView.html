@@ -18,7 +18,7 @@
 <body>
 	<div id="layout01">
 		
-		<a href="/calendar?showAll=true">全項目</a>
+		<a th:href="@{/calendar(showAll=true, showingDate=${showingDate})}">全項目</a>
 		
 		<br>
 		収入
@@ -26,21 +26,23 @@
 		<a href="/calendar?isIncome=true">全ての収入</a>
 		<br>
 		
-		<a th:each="genre:${genres_income}"
-		   th:href="@{/calendar(genreId=${genre.id})}" 
+		<div th:each="genre:${genres_income}">
+		<a th:href="@{/calendar(showAll=false, genreId=${genre.id}, showingDate=${showingDate})}" 
 		   th:text="${genre.genreName}"
 		   style="margin-right: 5px;"></a>
-		  
+		</div>
+
 		<br>
 		支出
 		<br>
 		<a href="/calendar?isIncome=false">全ての支出</a>
 		<br>
 		
-		<a th:each="genre:${genres_outcome}"
-				   th:href="@{/calendar(genreId=${genre.id})}" 
-				   th:text="${genre.genreName}"
-				   style="margin-right: 5px;"></a>
+		<div th:each="genre:${genres_outcome}">
+			<a th:href="@{/calendar(showAll=false, genreId=${genre.id}, showingDate=${showingDate})}" 
+			   th:text="${genre.genreName}"
+			   style="margin-right: 5px;"></a>
+		</div>
 				   
 	   <br>	   
 		   
