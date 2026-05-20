@@ -233,10 +233,15 @@ public class ItemController {
 	public String showCalendor(
 			@RequestParam(required = false) Integer id,
 			@RequestParam(required = false) Integer genreId,
-			@RequestParam(defaultValue = "true") boolean showAll,
+			@RequestParam(required = false) Boolean showAll,
 			@RequestParam(required = false) LocalDate selectedDate,
 			@RequestParam(required = false) LocalDate showingDate,
 			Model model) {
+
+		if (showAll != null)
+			account.setSettingIsShowAll(showAll);
+		if (genreId != null)
+			account.setSettingShowGenreId(genreId);
 
 		// 収入ジャンル一覧を取得
 		List<Genre> genre_incomeList = genreRepository.findByIsIncome(true);
@@ -246,18 +251,22 @@ public class ItemController {
 		List<Genre> genre_outcomeList = genreRepository.findByIsIncome(false);
 		model.addAttribute("genres_outcome", genre_outcomeList);
 
+		//表示するアイテムを取得し送信
 		List<Item> itemList = new ArrayList<Item>();
-		if (showAll) {
+		//showAllだったら
+		if (account.getSettingIsShowAll() != null && account.getSettingIsShowAll().booleanValue()) {
 			itemList = itemRepository.findByUserId(account.getUserId());
 		} else {
-			if (genreId != null) {
-				itemList = itemRepository.findByUserIdAndGenreId(account.getUserId(), genreId);
+			//showAll以外で、ジャンルが決められていたら
+			if (account.getSettingShowGenreId() != null) {
+				itemList = itemRepository.findByUserIdAndGenreId(account.getUserId(), account.getSettingShowGenreId());
+			} else {
+				itemList = itemRepository.findByUserId(account.getUserId());
 			}
 		}
 
 		//イベント登録
 		List<Map<String, Object>> events = new ArrayList<>();
-
 		for (Item item : itemList) {
 			Map<String, Object> event = new HashMap<>();
 			event.put("id", item.getId()); // データベースのPK（数値型でも文字列型でも可）
