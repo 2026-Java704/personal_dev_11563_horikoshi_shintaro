@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>カレンダー表示</title>
+	<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+	<style>
+		#calendar {
+			max-width: 900px;
+			margin: 40px auto;
+		}
+	</style>
+	
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	<div id="layout01">
+		
+		<a href="/calendar">全項目</a>
+		
+		<br>
+		収入
+		<br>
+		
+		<a th:each="genre:${genres_income}"
+		   th:href="@{/calendar(genreId=${genre.id})}" 
+		   th:text="${genre.genreName}"
+		   style="margin-right: 5px;"></a>
+		  
+		<br>
+		支出
+		<br>
+		
+		<a th:each="genre:${genres_outcome}"
+				   th:href="@{/calendar(genreId=${genre.id})}" 
+				   th:text="${genre.genreName}"
+				   style="margin-right: 5px;"></a>
+				   
+	   <br>	   
+		   
+		<a href="/logout">ログアウト</a>
+		
+		
+	</div>
+	<div id="layout02">
+		
+		<div id="calendar"></div>
+		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+
+		<script th:inline="javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				var calendarEl = document.getElementById('calendar');
+				var eventData = /*[[${calendarEvents}]]*/[];
+
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					initialView: 'dayGridMonth',
+					locale: 'ja',
+					events: eventData,
+					
+					eventClick: function(info) {
+					               // Java側から渡した "id" を取得
+					               const eventId = info.event.id;
+					               // IDをパラメータに付けてJava側へ画面遷移
+					               window.location.href = '/calendar?date=' + info.event.startStr + '&id=' + eventId;
+					},
+								   
+				   dateClick: function(info) {
+	   					          window.location.href = '/calendar?date=' + info.dateStr;
+								  }
+					});
+				calendar.render();
+			});
+		</script>
+		
+		
+	</div>
+	
+	<div id="layout03">
+		<div>[[${date}]]</div>
+		
+		<br>
+		
+		<div th:if="${selectedItem}">
+			[[${selectedItem.itemName}]]
+			<br>
+			[[${selectedItem.price}]]
+			<br>
+			[[${selectedItem.genre.genreName}]]
+			<br>
+			[[${selectedItem.comment}]]
+			
+			<form th:action = "@{/items/{itemId}/edit(itemId=${selectedItem.id})}" method ="get">
+				<button>更新</button>
+			</form>
+			
+			<form th:action = "@{/items/{itemId}/delete(itemId=${selectedItem.id})}" method ="post">
+				<button>削除</button>
+			</form>
+			
+		</div>
+	
+		<a th:href="@{/items/add(date=${date})}">新規作成</a>
+			
+	</div>
+	
+	
+
+</body>
+
+</html>
