@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Setting;
 import com.example.demo.entity.User;
 import com.example.demo.model.Account;
 import com.example.demo.repository.UserRepository;
@@ -101,6 +102,7 @@ public class AccountController {
 		User targetUser = userRepository.findByEmailAndPassword(email, password);
 		if (targetUser != null) {
 			account.setUser(targetUser);
+			account.setSetting(new Setting(true, null));
 			// 「/items」へのリダイレクト
 			return "redirect:/items";
 
