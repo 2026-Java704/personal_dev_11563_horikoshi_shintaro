@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.PersonalDev11563HorikoshiShintaroApplication;
 import com.example.demo.entity.Genre;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.User;
@@ -22,6 +25,8 @@ import com.example.demo.repository.UserRepository;
 @Controller
 public class ItemController {
 
+	private final PersonalDev11563HorikoshiShintaroApplication personalDev11563HorikoshiShintaroApplication;
+
 	private final Account account;
 	private final UserRepository userRepository;
 	private final GenreRepository genreRepository;
@@ -31,11 +36,13 @@ public class ItemController {
 			Account account,
 			UserRepository userRepository,
 			GenreRepository genreRepository,
-			ItemRepository itemRepository) {
+			ItemRepository itemRepository,
+			PersonalDev11563HorikoshiShintaroApplication personalDev11563HorikoshiShintaroApplication) {
 		this.account = account;
 		this.userRepository = userRepository;
 		this.genreRepository = genreRepository;
 		this.itemRepository = itemRepository;
+		this.personalDev11563HorikoshiShintaroApplication = personalDev11563HorikoshiShintaroApplication;
 	}
 
 	// 項目一覧表示
@@ -73,10 +80,16 @@ public class ItemController {
 
 	// 新規登録画面の表示
 	@GetMapping("/items/add")
-	public String add(Model model) {
+	public String add(
+			@RequestParam(required = false) LocalDate date,
+			Model model) {
 		// 全ジャンル一覧を取得
 		List<Genre> genreList = genreRepository.findAll();
 		model.addAttribute("genres", genreList);
+
+		if (date != null) {
+			model.addAttribute("addDate", date);
+		}
 
 		return "addItem";
 	}
@@ -220,8 +233,48 @@ public class ItemController {
 	}
 
 	// カレンダー画面の表示
-	@GetMapping("/calender")
-	public String showCalendor(Model model) {
-		return "calendorView";
+	@GetMapping("/calendar")
+	public String showCalendor(
+			@RequestParam(required = false) Integer id,
+			@RequestParam(required = false) Integer genreId,
+			@RequestParam(required = false) LocalDate date,
+			Model model) {
+
+		// 収入ジャンル一覧を取得
+		List<Genre> genre_incomeList = genreRepository.findAll();
+		model.addAttribute("genres_income", genre_incomeList);
+
+		// 支出ジャンル一覧を取得
+		List<Genre> genre_outcomeList = genreRepository.findAll();
+		model.addAttribute("genres_outcome", genre_outcomeList);
+
+		List<Item> itemList = new ArrayList<Item>();
+		if (genreId != null)
+			itemList = itemRepository.findByUserIdAndGenreId(account.getUserId(), genreId);
+		else
+			itemList = itemRepository.findByUserId(account.getUserId());
+
+		List<Map<String, Object>> events = new ArrayList<>();
+
+		for (Item item : itemList) {
+			Map<String, Object> event = new HashMap<>();
+			event.put("id", item.getId()); // データベースのPK（数値型でも文字列型でも可）
+			event.put("title", item.getPriceWithSignString());
+			event.put("start", item.getAddDate());
+			events.add(event);
+		}
+
+		model.addAttribute("calendarEvents", events);
+
+		if (id != null) {
+			Item item = itemRepository.findById(id).get();
+			model.addAttribute("selectedItem", item);
+		}
+
+		if (date != null) {
+			model.addAttribute("date", date);
+		}
+
+		return "calendarView";
 	}
 }
