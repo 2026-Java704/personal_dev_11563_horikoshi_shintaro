@@ -1,0 +1,27 @@
+#layout01 {
+  background-color: rgb(255, 128, 128);
+  width: 300px; /* 幅 */
+  height: 600px;  /* 高さ */
+  float: left;  /* 回り込み */
+}
+ 
+#layout02 {
+  background-color: rgb(128, 255, 128);
+  width: 600px; /* 幅 */
+  height: 600px;  /* 高さ */
+  float: left;  /* 回り込み */
+}
+
+#layout03 {
+  background-color: cyan;
+  width: 300px; /* 幅 */
+  height: 600px;  /* 高さ */
+  float: left;  /* 回り込み */
+}
+
+#layout04 {
+  background-color: rgb(255, 255, 128);
+  width: 600px; /* 幅 */
+  height: 300px;  /* 高さ */
+  float: left;  /* 回り込み */
+}
