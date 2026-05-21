@@ -269,6 +269,7 @@ public class ItemController {
 			account.setSettingIsShowAll(showAll);
 		if (genreId != null)
 			account.setSettingShowGenreId(genreId);
+
 		if (showingDate != null)
 			account.setSettingShowingDate(showingDate);
 		if (selectedDate != null)
@@ -306,12 +307,12 @@ public class ItemController {
 			Item item = itemRepository.findById(editItem_id).get();
 
 			item.changeInfomations(editItem_name, account.getUser(), genre, editItem_price, editItem_addDate,
-					addItem_comment);
+					editItem_comment);
 
 			itemRepository.save(item);
 		}
 
-		//ジャンル削除処理
+		//項目削除処理
 		if (deleteItem_id != null) {
 			itemRepository.deleteById(deleteItem_id);
 		}
@@ -346,6 +347,7 @@ public class ItemController {
 
 		//ジャンル削除処理
 		if (deleteGenre_id != null) {
+			account.setSettingShowGenreId(null);
 			genreRepository.deleteById(deleteGenre_id);
 		}
 

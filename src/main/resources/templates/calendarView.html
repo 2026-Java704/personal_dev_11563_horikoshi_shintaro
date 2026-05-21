@@ -30,6 +30,7 @@
 		   style="margin-right: 5px;"></a>
 		   
 		   <div  th:if="${selectedGenre != null && selectedGenre.id == genre.id}">
+			↑
 			<input type="checkbox" id="popup_editGenre"  class="popup-toggle" >
 				   						<label class="popup-open" for="popup_editGenre">編集</label>
 				   						<div class="popup-overlay">
@@ -88,6 +89,7 @@
 			   style="margin-right: 5px;"></a>
 			   
 			   <div  th:if="${selectedGenre != null &&  selectedGenre.id == genre.id}">
+				↑
 			   			<input type="checkbox" id="popup_editGenre"  class="popup-toggle" >
 			   				   						<label class="popup-open" for="popup_editGenre">編集</label>
 			   				   						<div class="popup-overlay">
