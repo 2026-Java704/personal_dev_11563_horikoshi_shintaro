@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -238,12 +239,14 @@ public class ItemController {
 			@RequestParam(required = false) LocalDate showingDate,
 			Model model) {
 
+		Genre testGenre = new Genre();
+
 		if (showAll != null)
 			account.setSettingIsShowAll(showAll);
 		if (genreId != null)
 			account.setSettingShowGenreId(genreId);
 
-		// 収入ジャンル一覧を取得
+		//		 収入ジャンル一覧を取得
 		List<Genre> genre_incomeList = genreRepository.findByIsIncome(true);
 		model.addAttribute("genres_income", genre_incomeList);
 
@@ -252,18 +255,7 @@ public class ItemController {
 		model.addAttribute("genres_outcome", genre_outcomeList);
 
 		//表示するアイテムを取得し送信
-		List<Item> itemList = new ArrayList<Item>();
-		//showAllだったら
-		if (account.getSettingIsShowAll() != null && account.getSettingIsShowAll().booleanValue()) {
-			itemList = itemRepository.findByUserId(account.getUserId());
-		} else {
-			//showAll以外で、ジャンルが決められていたら
-			if (account.getSettingShowGenreId() != null) {
-				itemList = itemRepository.findByUserIdAndGenreId(account.getUserId(), account.getSettingShowGenreId());
-			} else {
-				itemList = itemRepository.findByUserId(account.getUserId());
-			}
-		}
+		List<Item> itemList = itemRepository.findByUserId(account.getUserId());
 
 		//イベント登録
 		List<Map<String, Object>> events = new ArrayList<>();
@@ -272,9 +264,46 @@ public class ItemController {
 			event.put("id", item.getId()); // データベースのPK（数値型でも文字列型でも可）
 			event.put("title", item.getPriceWithSignString());
 			event.put("start", item.getAddDate());
+
+			//色を決める
+			String backGroundColor = item.getGenre().getColorHex();
+			Color color = item.getGenre().getColor();
+			double luma = (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue());
+
+			String textColor = "#FFFFFFFF";
+			if (luma >= 128) {
+				textColor = "#000000FF";
+			}
+
+			//ShowAllではなく、ジャンルが指定されていて、違っているものは、色を薄くする
+			if (!account.getSettingIsShowAll()) {
+				if (account.getSettingShowGenreId() != null) {
+					if (account.getSettingShowGenreId() != item.getGenre().getId()) {
+						Color fadedColor = new Color(
+								color.getRed(),
+								color.getGreen(),
+								color.getBlue(),
+								60);
+
+						// #RRGGBBAA 形式の文字列に変換して永続化用フィールドにセット
+						backGroundColor = String.format("#%02X%02X%02X%02X",
+								fadedColor.getRed(),
+								fadedColor.getGreen(),
+								fadedColor.getBlue(),
+								fadedColor.getAlpha());
+
+						if (textColor.equals("#FFFFFFFF"))
+							textColor = "#FFFFFF60";
+						else if (textColor.equals("#000000FF"))
+							textColor = "#00000060";
+					}
+				}
+			}
+
+			event.put("color", backGroundColor);
+			event.put("textColor", textColor);
 			events.add(event);
 		}
-
 		model.addAttribute("calendarEvents", events);
 
 		//現在選択中のアイテムを送信
