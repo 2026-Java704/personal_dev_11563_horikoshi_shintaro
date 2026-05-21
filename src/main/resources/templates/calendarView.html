@@ -28,8 +28,55 @@
 		<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" 
 		   th:text="${genre.genreName}"
 		   style="margin-right: 5px;"></a>
-		  
-		</div>
+		   
+		   <div  th:if="${selectedGenre != null && selectedGenre.id == genre.id}">
+			<input type="checkbox" id="popup_editGenre"  class="popup-toggle" >
+				   						<label class="popup-open" for="popup_editGenre">編集</label>
+				   						<div class="popup-overlay">
+				   						    <div class="popup-window">
+				   						        <p class="popup-text">
+				   									
+				   									項目追加
+				   									
+													<form action="/calendar" method="get">
+																	<table border="1">
+																		<tr>
+																			<th>名前</th>
+																			<td>
+																				<input type="text" name="editGenre_name" th:value="${selectedGenre.genreName}">
+																			</td>
+																		</tr>
+																		<tr>
+																			<th>収入ですか？</th>
+																			<td>
+																				<input type="checkbox" name="editGenre_isIncome" th:checked="${selectedGenre.isIncome}">
+																			</td>
+																		</tr>
+																		<tr>
+																			<th>色</th>
+																			<td>
+																				<input type="color" name="editGenre_color" th:value="${selectedGenre.getColorHex().substring(0, 7)}">
+																			</td>
+																		</tr>
+																	</table>
+																	<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
+																	<button>変更</button>
+																</form>
+																
+																<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
+				   									
+				   								</p>
+				   						        <label class="popup-close" for="popup_editGenre">
+				   						            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+				   						                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+				   						                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+				   						            </svg>
+				   						        </label>
+				   						    </div>
+				   						</div>
+				   						
+				   	</div>
+		   </div>
 
 		<br>
 		支出
@@ -39,6 +86,54 @@
 			<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" 
 			   th:text="${genre.genreName}"
 			   style="margin-right: 5px;"></a>
+			   
+			   <div  th:if="${selectedGenre != null &&  selectedGenre.id == genre.id}">
+			   			<input type="checkbox" id="popup_editGenre"  class="popup-toggle" >
+			   				   						<label class="popup-open" for="popup_editGenre">編集</label>
+			   				   						<div class="popup-overlay">
+			   				   						    <div class="popup-window">
+			   				   						        <p class="popup-text">
+			   				   									
+			   				   									項目追加
+			   				   									
+			   													<form action="/calendar" method="get">
+			   																	<table border="1">
+			   																		<tr>
+			   																			<th>名前</th>
+			   																			<td>
+			   																				<input type="text" name="editGenre_name" th:value="${selectedGenre.genreName}">
+			   																			</td>
+			   																		</tr>
+			   																		<tr>
+			   																			<th>収入ですか？</th>
+			   																			<td>
+			   																				<input type="checkbox" name="editGenre_isIncome" th:checked="${selectedGenre.isIncome}">
+			   																			</td>
+			   																		</tr>
+			   																		<tr>
+			   																			<th>色</th>
+			   																			<td>
+			   																				<input type="color" name="editGenre_color" th:value="${selectedGenre.getColorHex().substring(0, 7)}">
+			   																			</td>
+			   																		</tr>
+			   																	</table>
+			   																	<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
+			   																	<button>変更</button>
+			   																</form>
+			   																
+			   																<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
+			   				   									
+			   				   								</p>
+			   				   						        <label class="popup-close" for="popup_editGenre">
+			   				   						            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+			   				   						                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+			   				   						                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+			   				   						            </svg>
+			   				   						        </label>
+			   				   						    </div>
+			   				   						</div>
+			   				   						
+			   				   	</div>
 		</div>
 				   
 	   <br>
@@ -48,6 +143,8 @@
 	   <div class="popup-overlay">
 	       <div class="popup-window">
 	           <p class="popup-text">
+				
+				ジャンル追加
 				
 				<form action="/calendar" method="get">
 								<table border="1">
@@ -180,153 +277,135 @@
 			<br>
 			[[${selectedItem.comment}]]
 			
-		</div>	
+			
+			<input type="checkbox" id="popup_editItem"  class="popup-toggle">
+						<label class="popup-open" for="popup_editItem">項目を更新する</label>
+						<div class="popup-overlay">
+						    <div class="popup-window">
+						        <p class="popup-text">
+									
+									項目更新
+									
+									<form action="/calendar" method="get">
+														<table border="1">
+															<tr>
+																<th>日付</th>
+																<td>
+																	<input type="date" name="editItem_addDate" th:value="${selectedItem.addDate}">
+																</td>
+															</tr>
+															<tr>
+																<th>名前</th>
+																<td>
+																	<input type="text" name="editItem_name" th:value="${selectedItem.itemName}">
+																</td>
+															</tr>
+															<tr>
+																<th>ジャンル</th>
+																<td>
+																	<select name = "editItem_genreId">
+																		<option th:each="genre:${genres}" th:value="${genre.id}"  th:selected="${genre.id} == ${selectedItem.genre.id}">[[${genre.genreName}]]</option>
+																	</select>
+																</td>
+															</tr>
+															<tr>
+																<th>値段</th>
+																<td>
+																	<input type="number" name="editItem_price" th:value="${selectedItem.price}">
+																</td>
+															</tr>
+															<tr>
+																<th>コメント</th>
+																<td>
+																	<textarea name="editItem_comment" th:text="${selectedItem.comment}"></textarea>
+																</td>
+															</tr>
+														</table>
+														<input type="hidden" name="editItem_id" th:value="${selectedItem.id}">
+														<button>更新</button>
+													</form>
+													
+													<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">この項目を削除</a>
+								
+									
+								</p>
+						        <label class="popup-close" for="popup_editItem">
+						            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+						                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+						                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+						            </svg>
+						        </label>
+						    </div>
+						</div>
+				
+			
+		</div>
+		
+		<input type="checkbox" id="popup_addItem"  class="popup-toggle" th:if="${selectedDate !=null}">
+						<label class="popup-open" for="popup_addItem">項目を追加する</label>
+						<div class="popup-overlay">
+						    <div class="popup-window">
+						        <p class="popup-text">
+									
+									項目追加
+									
+									<form action="/calendar" method="get">
+															<table border="1">
+																<tr>
+																	<th>日付</th>
+																	<td>
+																		[[${selectedDate}]]
+																	</td>
+																</tr>
+																<tr>
+																	<th>名前</th>
+																	<td>
+																		<input type="text" name="addItem_name">
+																	</td>
+																</tr>
+																<tr>
+																	<th>ジャンル</th>
+																	<td>
+																		<select name = "addItem_genreId">
+																			<option th:each="genre:${genres}" th:value="${genre.id}">[[${genre.genreName}]]</option>
+																		</select>
+																	</td>
+																</tr>
+																<tr>
+																	<th>値段</th>
+																	<td>
+																		<input type="number" name="addItem_price">
+																	</td>
+																</tr>
+																<tr>
+																	<th>コメント</th>
+																	<td>
+																		<textarea name="addItem_comment"></textarea>
+																	</td>
+																</tr>
+															</table>
+															<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
+															
+															<button>追加</button>
+														</form>
+								
+									
+								</p>
+						        <label class="popup-close" for="popup_addItem">
+						            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+						                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+						                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+						            </svg>
+						        </label>
+						    </div>
+						</div>
+						
 	</div>
 	
 	<div id="layout04">
 		[[${targetMonth}]]月の収支：[[${allIncomeAndExpensesInThisMonth}]]
 	</div>
-	
-	<div id="layout05">
-		ジャンル追加
 		
-	</div>
-	
-	<div id="layout06" th:if="${selectedGenre !=null}">
-			ジャンル編集/削除
-			<form action="/calendar" method="get">
-				<table border="1">
-					<tr>
-						<th>名前</th>
-						<td>
-							<input type="text" name="editGenre_name" th:value="${selectedGenre.genreName}">
-						</td>
-					</tr>
-					<tr>
-						<th>収入ですか？</th>
-						<td>
-							<input type="checkbox" name="editGenre_isIncome" th:checked="${selectedGenre.isIncome}">
-						</td>
-					</tr>
-					<tr>
-						<th>色</th>
-						<td>
-							<input type="color" name="editGenre_color" th:value="${selectedGenre.getColorHex().substring(0, 7)}">
-						</td>
-					</tr>
-				</table>
-				<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
-				<button>変更</button>
-			</form>
-			
-			<br>
-				
-			<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
-	</div>
-		
-		
-		<input type="checkbox" id="popup"  class="popup-toggle" th:if="${selectedDate !=null}">
-				<label class="popup-open" for="popup">項目を追加する</label>
-				<div class="popup-overlay">
-				    <div class="popup-window">
-				        <p class="popup-text">
-							
-							
-							<form action="/calendar" method="get">
-													<table border="1">
-														<tr>
-															<th>日付</th>
-															<td>
-																[[${selectedDate}]]
-															</td>
-														</tr>
-														<tr>
-															<th>名前</th>
-															<td>
-																<input type="text" name="addItem_name">
-															</td>
-														</tr>
-														<tr>
-															<th>ジャンル</th>
-															<td>
-																<select name = "addItem_genreId">
-																	<option th:each="genre:${genres}" th:value="${genre.id}">[[${genre.genreName}]]</option>
-																</select>
-															</td>
-														</tr>
-														<tr>
-															<th>値段</th>
-															<td>
-																<input type="number" name="addItem_price">
-															</td>
-														</tr>
-														<tr>
-															<th>コメント</th>
-															<td>
-																<textarea name="addItem_comment"></textarea>
-															</td>
-														</tr>
-													</table>
-													<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
-													
-													<button>追加</button>
-												</form>
-						
-							
-						</p>
-				        <label class="popup-close" for="popup">
-				            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
-				                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
-				                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
-				            </svg>
-				        </label>
-				    </div>
-				</div>
-		
-			
-	<div id="layout08" th:if="${selectedItem !=null}">
-			項目更新
-			<form action="/calendar" method="get">
-					<table border="1">
-						<tr>
-							<th>日付</th>
-							<td>
-								<input type="date" name="editItem_addDate" th:value="${selectedItem.addDate}">
-							</td>
-						</tr>
-						<tr>
-							<th>名前</th>
-							<td>
-								<input type="text" name="editItem_name" th:value="${selectedItem.itemName}">
-							</td>
-						</tr>
-						<tr>
-							<th>ジャンル</th>
-							<td>
-								<select name = "editItem_genreId">
-									<option th:each="genre:${genres}" th:value="${genre.id}"  th:selected="${genre.id} == ${selectedItem.genre.id}">[[${genre.genreName}]]</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<th>値段</th>
-							<td>
-								<input type="number" name="editItem_price" th:value="${selectedItem.price}">
-							</td>
-						</tr>
-						<tr>
-							<th>コメント</th>
-							<td>
-								<textarea name="editItem_comment" th:text="${selectedItem.comment}"></textarea>
-							</td>
-						</tr>
-					</table>
-					<input type="hidden" name="editItem_id" th:value="${selectedItem.id}">
-					<button>更新</button>
-				</form>
-				
-				<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">この項目を削除</a>
-	</div>
 </body>
 
 </html>

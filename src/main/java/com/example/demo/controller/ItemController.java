@@ -381,7 +381,7 @@ public class ItemController {
 				textColor = "#000000FF";
 			}
 
-			//ShowAllではなく、ジャンルが指定されていて、違っているものは、色を薄くする
+			//ShowAllではないかつジャンルが指定されていて、違っているものは、色を薄くする
 			if (!account.getSettingIsShowAll()) {
 				if (account.getSettingShowGenreId() != null) {
 					if (account.getSettingShowGenreId() != item.getGenre().getId()) {
@@ -403,6 +403,30 @@ public class ItemController {
 						else if (textColor.equals("#000000FF"))
 							textColor = "#00000060";
 					}
+				}
+			}
+			//showAllでも、現在表示されている月以外は薄くする
+			else if (account.getSettingShowingDate() != null) {
+				int showingMonth = account.getSettingShowingDate().getMonthValue();
+
+				if (showingMonth != item.getAddDate().getMonthValue()) {
+					Color fadedColor = new Color(
+							color.getRed(),
+							color.getGreen(),
+							color.getBlue(),
+							60);
+
+					// #RRGGBBAA 形式の文字列に変換して永続化用フィールドにセット
+					backGroundColor = String.format("#%02X%02X%02X%02X",
+							fadedColor.getRed(),
+							fadedColor.getGreen(),
+							fadedColor.getBlue(),
+							fadedColor.getAlpha());
+
+					if (textColor.equals("#FFFFFFFF"))
+						textColor = "#FFFFFF60";
+					else if (textColor.equals("#000000FF"))
+						textColor = "#00000060";
 				}
 			}
 
