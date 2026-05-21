@@ -49,7 +49,7 @@ public class ItemController {
 			Model model) {
 
 		// 全ジャンル一覧を取得
-		List<Genre> genreList = genreRepository.findAll();
+		List<Genre> genreList = genreRepository.findByUserId(account.getUserId());
 		model.addAttribute("genres", genreList);
 
 		// 商品一覧情報の取得
@@ -81,7 +81,7 @@ public class ItemController {
 			@RequestParam(required = false) LocalDate selectedDate,
 			Model model) {
 		// 全ジャンル一覧を取得
-		List<Genre> genreList = genreRepository.findAll();
+		List<Genre> genreList = genreRepository.findByUserId(account.getUserId());
 		model.addAttribute("genres", genreList);
 
 		if (selectedDate != null) {
@@ -102,7 +102,7 @@ public class ItemController {
 			Model model) {
 
 		// 全ジャンル一覧を取得
-		List<Genre> genreList = genreRepository.findAll();
+		List<Genre> genreList = genreRepository.findByUserId(account.getUserId());
 		model.addAttribute("genres", genreList);
 
 		List<String> errors = new ArrayList<String>();
@@ -152,7 +152,7 @@ public class ItemController {
 	public String edit(@PathVariable Integer id, Model model) {
 
 		// 全ジャンル一覧を取得
-		List<Genre> genreList = genreRepository.findAll();
+		List<Genre> genreList = genreRepository.findByUserId(account.getUserId());
 		model.addAttribute("genres", genreList);
 
 		// 全ユーザー一覧を取得
@@ -181,7 +181,7 @@ public class ItemController {
 		model.addAttribute("item", targetItem);
 
 		// 全ジャンル一覧を取得
-		List<Genre> genreList = genreRepository.findAll();
+		List<Genre> genreList = genreRepository.findByUserId(account.getUserId());
 		model.addAttribute("genres", genreList);
 
 		List<String> errors = new ArrayList<String>();
@@ -237,22 +237,128 @@ public class ItemController {
 			@RequestParam(required = false) Boolean showAll,
 			@RequestParam(required = false) LocalDate selectedDate,
 			@RequestParam(required = false) LocalDate showingDate,
-			Model model) {
 
-		Genre testGenre = new Genre();
+			@RequestParam(required = false) String addGenre_name,
+			@RequestParam(required = false) Boolean addGenre_isIncome,
+			@RequestParam(required = false) String addGenre_color,
+
+			@RequestParam(required = false) Integer editGenre_id,
+			@RequestParam(required = false) String editGenre_name,
+			@RequestParam(required = false) Boolean editGenre_isIncome,
+			@RequestParam(required = false) String editGenre_color,
+
+			@RequestParam(required = false) Integer deleteGenre_id,
+
+			@RequestParam(required = false) String addItem_name,
+			@RequestParam(required = false) Integer addItem_genreId,
+			@RequestParam(required = false) Integer addItem_price,
+			@RequestParam(required = false) LocalDate addItem_addDate,
+			@RequestParam(required = false) String addItem_comment,
+
+			@RequestParam(required = false) Integer editItem_id,
+			@RequestParam(required = false) String editItem_name,
+			@RequestParam(required = false) Integer editItem_genreId,
+			@RequestParam(required = false) Integer editItem_price,
+			@RequestParam(required = false) LocalDate editItem_addDate,
+			@RequestParam(required = false) String editItem_comment,
+
+			@RequestParam(required = false) Integer deleteItem_id,
+			Model model) {
 
 		if (showAll != null)
 			account.setSettingIsShowAll(showAll);
 		if (genreId != null)
 			account.setSettingShowGenreId(genreId);
+		if (showingDate != null)
+			account.setSettingShowingDate(showingDate);
+		if (selectedDate != null)
+			account.setSettingSelectedDate(selectedDate);
+
+		if (account.getSettingIsShowAll() != null) {
+			if (account.getSettingIsShowAll().booleanValue()) {
+				account.setSettingShowGenreId(null);
+			}
+		}
+
+		//項目追加処理
+		if (addItem_name != null && addItem_name.length() > 0 && addItem_genreId != null && addItem_price != null
+				&& addItem_addDate != null) {
+
+			Genre genre = genreRepository.findById(addItem_genreId).get();
+
+			Item item = new Item(addItem_name, account.getUser(), genre, addItem_price, addItem_addDate,
+					addItem_comment);
+
+			itemRepository.save(item);
+
+		}
+
+		//項目編集処理
+		if (id != null) {
+			Item item = itemRepository.findById(id).get();
+			model.addAttribute("selectedItem", item);
+		}
+		if (editItem_name != null && editItem_name.length() > 0 && editItem_genreId != null && editItem_price != null
+				&& editItem_addDate != null) {
+
+			Genre genre = genreRepository.findById(editItem_genreId).get();
+
+			Item item = itemRepository.findById(editItem_id).get();
+
+			item.changeInfomations(editItem_name, account.getUser(), genre, editItem_price, editItem_addDate,
+					addItem_comment);
+
+			itemRepository.save(item);
+		}
+
+		//ジャンル削除処理
+		if (deleteItem_id != null) {
+			itemRepository.deleteById(deleteItem_id);
+		}
+
+		//ジャンル追加処理
+		if (addGenre_name != null && addGenre_name.length() > 0) {
+			boolean isIncome = addGenre_isIncome == null ? false : true;
+			String hex = addGenre_color.replace("%", "#");
+
+			Genre genre = new Genre(addGenre_name, isIncome, hex, account.getUser());
+			genreRepository.save(genre);
+		}
+
+		if (account.getSettingShowGenreId() != null) {
+			Genre selectedGenre = genreRepository.findById(account.getSettingShowGenreId()).get();
+			model.addAttribute("selectedGenre", selectedGenre);
+		}
+
+		//ジャンル編集処理
+		if (editGenre_id != null && editGenre_name != null && editGenre_name.length() > 0) {
+			boolean isIncome = editGenre_isIncome == null ? false : true;
+
+			Genre genre = genreRepository.findById(editGenre_id).get();
+			genre.setGenreName(editGenre_name);
+
+			String hex = editGenre_color.replace("%", "#");
+			genre.setColorHex(hex);
+			genre.setIsIncome(isIncome);
+
+			genreRepository.save(genre);
+		}
+
+		//ジャンル削除処理
+		if (deleteGenre_id != null) {
+			genreRepository.deleteById(deleteGenre_id);
+		}
 
 		//		 収入ジャンル一覧を取得
-		List<Genre> genre_incomeList = genreRepository.findByIsIncome(true);
+		List<Genre> genre_incomeList = genreRepository.findByUserIdAndIsIncome(account.getUserId(), true);
 		model.addAttribute("genres_income", genre_incomeList);
 
 		// 支出ジャンル一覧を取得
-		List<Genre> genre_outcomeList = genreRepository.findByIsIncome(false);
+		List<Genre> genre_outcomeList = genreRepository.findByUserIdAndIsIncome(account.getUserId(), false);
 		model.addAttribute("genres_outcome", genre_outcomeList);
+
+		List<Genre> genreList = genreRepository.findByUserId(account.getUserId());
+		model.addAttribute("genres", genreList);
 
 		//表示するアイテムを取得し送信
 		List<Item> itemList = itemRepository.findByUserId(account.getUserId());
@@ -313,20 +419,14 @@ public class ItemController {
 		}
 
 		//現在選択中の日付を送信
-		if (selectedDate != null) {
-			model.addAttribute("selectedDate", selectedDate);
+		if (account.getSettingSelectedDate() != null) {
+			model.addAttribute("selectedDate", account.getSettingSelectedDate());
 		}
 
 		//現在見ている月を送信
-		LocalDate targetDate = LocalDate.now();
-		if (showingDate != null) {
-			targetDate = showingDate;
-			model.addAttribute("showingDate", showingDate);
-			model.addAttribute("initialDate", showingDate);
-		} else {
-			model.addAttribute("showingDate", LocalDate.now());
-			model.addAttribute("initialDate", LocalDate.now());
-		}
+		LocalDate targetDate = account.getSettingShowingDate();
+		model.addAttribute("showingDate", targetDate);
+		model.addAttribute("initialDate", targetDate);
 
 		//本月の収支を計算
 		//最初の日と最後の日
