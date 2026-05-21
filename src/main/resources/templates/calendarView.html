@@ -18,36 +18,34 @@
 <body>
 	<div id="layout01">
 		
-		<a th:href="@{/calendar(showAll=true, showingDate=${showingDate})}">全項目</a>
+		<a th:href="@{/calendar(showAll=true)}">全項目</a>
 		
 		<br>
 		収入
 		<br>
-		<a href="/calendar?isIncome=true">全ての収入</a>
 		<br>
 		
 		<div th:each="genre:${genres_income}">
-		<a th:href="@{/calendar(showAll=false, genreId=${genre.id}, showingDate=${showingDate})}" 
+		<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" 
 		   th:text="${genre.genreName}"
 		   style="margin-right: 5px;"></a>
+		  
 		</div>
 
 		<br>
 		支出
 		<br>
-		<a href="/calendar?isIncome=false">全ての支出</a>
 		<br>
 		
 		<div th:each="genre:${genres_outcome}">
-			<a th:href="@{/calendar(showAll=false, genreId=${genre.id}, showingDate=${showingDate})}" 
+			<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" 
 			   th:text="${genre.genreName}"
 			   style="margin-right: 5px;"></a>
 		</div>
 				   
-	   <br>	   
+	   <br>
 		   
 		<a href="/logout">ログアウト</a>
-		
 		
 	</div>
 	<div id="layout02">
@@ -109,13 +107,11 @@
 					               // Java側から渡した "id" を取得
 					               const eventId = info.event.id;
 					               // IDをパラメータに付けてJava側へ画面遷移
-								   var date = /*[[${showingDate}]]*/'';
-					               window.location.href = '/calendar?showingDate='+date + '&selectedDate=' + info.event.startStr + '&id=' + eventId;
+					               window.location.href = '/calendar?selectedDate=' + info.event.startStr + '&id=' + eventId;
 					},
 					
 				   	dateClick: function(info) {
-									var date = /*[[${showingDate}]]*/'';
-	   					          window.location.href = '/calendar?showingDate='+date+ '&selectedDate=' + info.dateStr ;
+	   					          window.location.href = '/calendar?selectedDate=' + info.dateStr ;
 					},
 								  
 					});
@@ -143,14 +139,6 @@
 			<br>
 			[[${selectedItem.comment}]]
 			
-			<form th:action = "@{/items/{itemId}/edit(itemId=${selectedItem.id})}" method ="get">
-				<button>更新</button>
-			</form>
-			
-			<form th:action = "@{/items/{itemId}/delete(itemId=${selectedItem.id})}" method ="post">
-				<button>削除</button>
-			</form>
-			
 		</div>
 	
 		<a th:href="@{/items/add(selectedDate=${selectedDate})}">新規作成</a>
@@ -161,6 +149,151 @@
 		[[${targetMonth}]]月の収支：[[${allIncomeAndExpensesInThisMonth}]]
 	</div>
 	
+	<div id="layout05">
+		ジャンル追加
+		<form action="/calendar" method="get">
+				<table border="1">
+					<tr>
+						<th>名前</th>
+						<td>
+							<input type="text" name="addGenre_name">
+						</td>
+					</tr>
+					<tr>
+						<th>収入ですか？</th>
+						<td>
+							<input type="checkbox" name="addGenre_isIncome">
+						</td>
+					</tr>
+					<tr>
+						<th>色</th>
+						<td>
+							<input type="color" name="addGenre_color">
+						</td>
+					</tr>
+				</table>
+				<button>追加</button>
+			</form>
+	</div>
+	
+	<div id="layout06" th:if="${selectedGenre !=null}">
+			ジャンル編集/削除
+			<form action="/calendar" method="get">
+				<table border="1">
+					<tr>
+						<th>名前</th>
+						<td>
+							<input type="text" name="editGenre_name" th:value="${selectedGenre.genreName}">
+						</td>
+					</tr>
+					<tr>
+						<th>収入ですか？</th>
+						<td>
+							<input type="checkbox" name="editGenre_isIncome" th:checked="${selectedGenre.isIncome}">
+						</td>
+					</tr>
+					<tr>
+						<th>色</th>
+						<td>
+							<input type="color" name="editGenre_color" th:value="${selectedGenre.getColorHex().substring(0, 7)}">
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
+				<button>変更</button>
+			</form>
+			
+			<br>
+				
+			<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
+		</div>
+		
+		<div id="layout07" th:if="${selectedDate !=null}">
+				項目追加
+				<form action="/calendar" method="get">
+						<table border="1">
+							<tr>
+								<th>日付</th>
+								<td>
+									[[${selectedDate}]]
+								</td>
+							</tr>
+							<tr>
+								<th>名前</th>
+								<td>
+									<input type="text" name="addItem_name">
+								</td>
+							</tr>
+							<tr>
+								<th>ジャンル</th>
+								<td>
+									<select name = "addItem_genreId">
+										<option th:each="genre:${genres}" th:value="${genre.id}">[[${genre.genreName}]]</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th>値段</th>
+								<td>
+									<input type="number" name="addItem_price">
+								</td>
+							</tr>
+							<tr>
+								<th>コメント</th>
+								<td>
+									<textarea name="addItem_comment"></textarea>
+								</td>
+							</tr>
+						</table>
+						<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
+						
+						<button>追加</button>
+					</form>
+			</div>
+			
+	<div id="layout08" th:if="${selectedItem !=null}">
+			項目更新
+			<form action="/calendar" method="get">
+					<table border="1">
+						<tr>
+							<th>日付</th>
+							<td>
+								<input type="date" name="editItem_addDate" th:value="${selectedItem.addDate}">
+							</td>
+						</tr>
+						<tr>
+							<th>名前</th>
+							<td>
+								<input type="text" name="editItem_name" th:value="${selectedItem.itemName}">
+							</td>
+						</tr>
+						<tr>
+							<th>ジャンル</th>
+							<td>
+								<select name = "editItem_genreId">
+									<option th:each="genre:${genres}" th:value="${genre.id}"  th:selected="${genre.id} == ${selectedItem.genre.id}">[[${genre.genreName}]]</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>値段</th>
+							<td>
+								<input type="number" name="editItem_price" th:value="${selectedItem.price}">
+							</td>
+						</tr>
+						<tr>
+							<th>コメント</th>
+							<td>
+								<textarea name="editItem_comment" th:text="${selectedItem.comment}"></textarea>
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" name="editItem_id" th:value="${selectedItem.id}">
+					<button>更新</button>
+				</form>
+				
+				<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">この項目を削除</a>
+		</div>
 	
 
 </body>
