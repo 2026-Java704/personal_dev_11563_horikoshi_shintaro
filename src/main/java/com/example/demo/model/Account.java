@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -57,6 +59,22 @@ public class Account {
 
 	public void setSettingShowGenreId(Integer id) {
 		this.setting.setShowGenreId(id);
+	}
+
+	public LocalDate getSettingShowingDate() {
+		return setting.getShowingDate();
+	}
+
+	public void setSettingShowingDate(LocalDate date) {
+		this.setting.setShowingDate(date);
+	}
+
+	public LocalDate getSettingSelectedDate() {
+		return setting.getSelectedDate();
+	}
+
+	public void setSettingSelectedDate(LocalDate date) {
+		this.setting.setSelectedDate(date);
 	}
 
 }

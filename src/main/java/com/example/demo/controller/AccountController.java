@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class AccountController {
 		User targetUser = userRepository.findByEmailAndPassword(email, password);
 		if (targetUser != null) {
 			account.setUser(targetUser);
-			account.setSetting(new Setting(true, null));
+			account.setSetting(new Setting(true, null, LocalDate.now(), LocalDate.now()));
 			// 「/items」へのリダイレクト
 			return "redirect:/items";
 
