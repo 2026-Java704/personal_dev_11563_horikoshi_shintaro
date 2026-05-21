@@ -42,7 +42,47 @@
 		</div>
 				   
 	   <br>
-	   ジャンルを追加
+	   
+	   <input type="checkbox" id="popup_addGenre" class="popup-toggle">
+	   <label class="popup-open" for="popup_addGenre">ジャンルを追加する</label>
+	   <div class="popup-overlay">
+	       <div class="popup-window">
+	           <p class="popup-text">
+				
+				<form action="/calendar" method="get">
+								<table border="1">
+									<tr>
+										<th>名前</th>
+										<td>
+											<input type="text" name="addGenre_name">
+										</td>
+									</tr>
+									<tr>
+										<th>収入ですか？</th>
+										<td>
+											<input type="checkbox" name="addGenre_isIncome">
+										</td>
+									</tr>
+									<tr>
+										<th>色</th>
+										<td>
+											<input type="color" name="addGenre_color">
+										</td>
+									</tr>
+								</table>
+								<button>追加</button>
+							</form>
+				
+				</p>
+	           <label class="popup-close" for="popup_addGenre">
+	               <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+	                   <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+	                   <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+	               </svg>
+	           </label>
+	       </div>
+	   </div>
+	   
 	   <br>
 	   <br>
 	   
@@ -149,29 +189,7 @@
 	
 	<div id="layout05">
 		ジャンル追加
-		<form action="/calendar" method="get">
-				<table border="1">
-					<tr>
-						<th>名前</th>
-						<td>
-							<input type="text" name="addGenre_name">
-						</td>
-					</tr>
-					<tr>
-						<th>収入ですか？</th>
-						<td>
-							<input type="checkbox" name="addGenre_isIncome">
-						</td>
-					</tr>
-					<tr>
-						<th>色</th>
-						<td>
-							<input type="color" name="addGenre_color">
-						</td>
-					</tr>
-				</table>
-				<button>追加</button>
-			</form>
+		
 	</div>
 	
 	<div id="layout06" th:if="${selectedGenre !=null}">
@@ -207,7 +225,7 @@
 	</div>
 		
 		
-		<input type="checkbox" id="popup" th:if="${selectedDate !=null}">
+		<input type="checkbox" id="popup"  class="popup-toggle" th:if="${selectedDate !=null}">
 				<label class="popup-open" for="popup">項目を追加する</label>
 				<div class="popup-overlay">
 				    <div class="popup-window">
