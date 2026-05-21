@@ -36,17 +36,17 @@ public class Genre {
 	/**外部ユーザーID**/
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private User userId;
+	private User user;
 
 	public Genre() {
 
 	}
 
-	public Genre(String genreName, Boolean isIncome, String colorHex, User userId) {
+	public Genre(String genreName, Boolean isIncome, String colorHex, User user) {
 		this.genreName = genreName;
 		this.isIncome = isIncome;
 		this.colorHex = colorHex;
-		this.userId = userId;
+		this.user = user;
 	}
 
 	public String getGenreName() {
@@ -132,12 +132,12 @@ public class Genre {
 		return "-";
 	}
 
-	public User getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
