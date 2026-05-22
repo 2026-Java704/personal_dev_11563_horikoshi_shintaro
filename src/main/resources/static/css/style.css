@@ -17,6 +17,14 @@ form{
   text-align: center;
 }
 
+#logout{
+	    text-decoration: none;
+		color:rgb(37, 37, 37);
+		position: relative;
+		top:10%;
+		left: 1%;
+}
+
 .genres{
     border-radius: 5px;
     display: block;
@@ -119,8 +127,9 @@ footer {
 	font-size: 2rem;
 	position: absolute;
 	transform: translate(-50%, -50%);
-	top:90%;
+	top:90.5%;
 	left: 50%;
+	white-space: nowrap;
 }
 
 #sum{
@@ -128,8 +137,9 @@ footer {
 	font-weight: bold;
 	position: absolute;
 	transform: translate(-100%, -50%);
-	top:90%;
-	left: 100%;
+	top:93%;
+	left: 98%;
+	white-space: nowrap;
 }
 
 .fc .fc-toolbar-title {
@@ -161,7 +171,7 @@ footer {
 .popup-open {
   cursor: pointer;
   color: blue;
-  text-decoration: underline;
+  text-decoration: none;
   display: inline-block;
   margin: 10px;
 }
