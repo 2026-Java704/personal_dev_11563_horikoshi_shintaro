@@ -110,6 +110,20 @@ public class Genre {
 				color.getAlpha());
 	}
 
+	/**色に対応する文字色のHexを返します**/
+	@Transient
+	public String getInvetColorHex() {
+		Color color = getColor();
+		double luma = (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue());
+
+		String textColor = "#FFFFFFFF";
+		if (luma >= 128) {
+			textColor = "#000000FF";
+		}
+
+		return textColor;
+	}
+
 	public String getColorHex() {
 		return colorHex;
 	}

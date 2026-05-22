@@ -42,6 +42,12 @@ public class ItemController {
 		this.itemRepository = itemRepository;
 	}
 
+	// testPage表示
+	@GetMapping("/test")
+	public String test() {
+		return "testPage";
+	}
+
 	// 項目一覧表示
 	@GetMapping("/items")
 	public String index(
@@ -400,9 +406,7 @@ public class ItemController {
 								fadedColor.getBlue(),
 								fadedColor.getAlpha());
 
-						if (textColor.equals("#FFFFFFFF"))
-							textColor = "#FFFFFF60";
-						else if (textColor.equals("#000000FF"))
+						//文字カラーは黒くした方が見やすいので黒くする
 							textColor = "#00000060";
 					}
 				}
@@ -425,9 +429,6 @@ public class ItemController {
 							fadedColor.getBlue(),
 							fadedColor.getAlpha());
 
-					if (textColor.equals("#FFFFFFFF"))
-						textColor = "#FFFFFF60";
-					else if (textColor.equals("#000000FF"))
 						textColor = "#00000060";
 				}
 			}
