@@ -1,19 +1,23 @@
-:root {
-  /* 背景色を変えるだけで文字色も切り替わります */
-  --bg-color: #333333; 
-
-  /* 背景色の明度を計算し、白か黒を自動判定 */
-  --lightness: lch(from var(--bg-color) l);
-  --text-color: lch(from var(--bg-color) calc((var(--lightness) - 50) * -infinity) 0 0);
-}
-
 body {
     height: 100vh;
 	width: 100vw;
 	overflow: hidden; 
 }
 
-#genres{
+form{
+	text-align: center;
+}
+
+.centerButton {
+  padding: .4rem 2rem;
+  color: #FFF;
+  border-radius: 10rem;
+  background: linear-gradient(-45deg, rgb(37, 37, 37) 35%, rgb(49, 49, 49));
+  border: none;
+  text-align: center;
+}
+
+.genres{
     border-radius: 5px;
     display: block;
     width: 80%;
@@ -23,6 +27,49 @@ body {
     text-decoration: none;
     text-align: center;
     margin: 10px 0;
+	justify-self: center;
+}
+
+.popUpText{
+	
+    text-align: center;
+    margin: 10px 0;
+	justify-self: center;
+	font-size: 120%;
+	font-weight: bold;
+	
+}
+
+input[type="checkbox"] {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  border-radius: 3px;
+  vertical-align: -5px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+
+}
+
+input[type="checkbox"]:checked:before {
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  transform: rotate(50deg);
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  border-radius: 3px;
+  content: '';
+}
+
+.noBorderTable{
+	border: none ;
+	box-shadow: none;
+	border-collapse: collapse;
 }
 
 #calendar {
@@ -33,18 +80,18 @@ body {
  
  
 aside_left {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(247, 250, 222);
     height: 90%;
-    width: 15%;
+    width: 13%;
     float: left;
 	overflow: auto;
 	
 }
 
 aside_right {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(247, 250, 222);
     height: 90%;
-    width: 15%;
+    width: 17%;
     float: left;
 	overflow: auto;
 }
@@ -58,17 +105,52 @@ article {
 }
  
 footer {
-    background: rgb(84, 226, 169);
+    background: rgb(7, 192, 169);
     height: 10%;
     width: 100%;
     clear: both;
 	overflow: auto;
 }
 
+#sumThisMonth{
+	color: rgb(247, 250, 222);
+	font-weight: bold;
+	text-align: center;
+	font-size: 2rem;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top:90%;
+	left: 50%;
+}
 
+#sum{
+	color: rgb(247, 250, 222);
+	font-weight: bold;
+	position: absolute;
+	transform: translate(-100%, -50%);
+	top:90%;
+	left: 100%;
+}
 
+.fc .fc-toolbar-title {
+  font-size: 2rem;
+  font-weight: bold;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top:5%;
+  left: 50%;
+}
 
+.fc {
+  position: relative; /* Ensure the calendar is the reference point */
+}
 
+.fc .fc-button-primary {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5; /* Keep it above the calendar content */
+}
 
 /* チェックボックス（input）を非表示にする */
 .popup-toggle {
@@ -115,10 +197,8 @@ footer {
 /* 閉じるボタンのスタイル */
 .popup-close {
   position: absolute;
-  top: -15px;
-  right: -15px;
-  background: #333;
-  border-radius: 50%;
-  padding: 5px;
+  top: -10px;
+  right: -10px;
+  color: #333;
   cursor: pointer;
 }

@@ -20,22 +20,28 @@
 				<br>
 				
 				<div th:each="genre:${genres_income}">
-				<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" 
+			
+						<a th:href="@{/calendar(showAll=false, genreId=${genre.id})} " 
+				   class="genres"
 				   th:text="${genre.genreName}"
 				   th:style="'background: ' + ${genre.getColorHex()} + '; color: ' + ${genre.getInvetColorHex()}"></a>
+				
 				   
 				   <div  th:if="${selectedGenre != null && selectedGenre.id == genre.id}">
-					↑
+					
 					<input type="checkbox" id="popup_editGenre"  class="popup-toggle" >
 						   						<label class="popup-open" for="popup_editGenre">編集</label>
 						   						<div class="popup-overlay">
 						   						    <div class="popup-window">
 						   						        <p class="popup-text">
 						   									
-						   									項目追加
+															<p class="popUpText">
+																ジャンル更新
+															</p>
 						   									
+						   		
 															<form action="/calendar" method="get">
-																			<table border="1">
+																			<table border="1" class = "noBorderTable">
 																				<tr>
 																					<th>名前</th>
 																					<td>
@@ -56,17 +62,17 @@
 																				</tr>
 																			</table>
 																			<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
-																			<button>変更</button>
+																			<br>
+																			<button class="centerButton">変更</button>
 																		</form>
 																		
 																		<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
 						   									
 						   								</p>
 						   						        <label class="popup-close" for="popup_editGenre">
-						   						            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
-						   						                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
-						   						                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
-						   						            </svg>
+															<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+																										  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+																										</svg>
 						   						        </label>
 						   						    </div>
 						   						</div>
@@ -79,6 +85,7 @@
 				
 				<div th:each="genre:${genres_outcome}">
 					<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" 
+					class="genres"
 					   th:text="${genre.genreName}"
 					  th:style="'background: ' + ${genre.getColorHex()} + '; color: ' + ${genre.getInvetColorHex()}"></a>
 					   
@@ -90,10 +97,12 @@
 					   				   						    <div class="popup-window">
 					   				   						        <p class="popup-text">
 					   				   									
-					   				   									項目追加
+																		<p class="popUpText">
+																			ジャンル追加
+																		</p>
 					   				   									
 					   													<form action="/calendar" method="get">
-					   																	<table border="1">
+					   																	<table border="1" class = "noBorderTable">
 					   																		<tr>
 					   																			<th>名前</th>
 					   																			<td>
@@ -114,17 +123,17 @@
 					   																		</tr>
 					   																	</table>
 					   																	<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
-					   																	<button>変更</button>
+																						<br>
+					   																	<button class="centerButton">変更</button>
 					   																</form>
 					   																
 					   																<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
 					   				   									
 					   				   								</p>
 					   				   						        <label class="popup-close" for="popup_editGenre">
-					   				   						            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
-					   				   						                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
-					   				   						                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
-					   				   						            </svg>
+																		<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+																													  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+																													</svg>
 					   				   						        </label>
 					   				   						    </div>
 					   				   						</div>
@@ -140,10 +149,12 @@
 			       <div class="popup-window">
 			           <p class="popup-text">
 						
-						ジャンル追加
+						<p class="popUpText">
+							ジャンル追加
+						</p>
 						
 						<form action="/calendar" method="get">
-										<table border="1">
+										<table border="1" class = "noBorderTable">
 											<tr>
 												<th>名前</th>
 												<td>
@@ -163,23 +174,21 @@
 												</td>
 											</tr>
 										</table>
-										<button>追加</button>
+										<br>
+										<button class="centerButton">追加</button>
 									</form>
 						
 						</p>
 			           <label class="popup-close" for="popup_addGenre">
-			               <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
-			                   <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
-			                   <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
-			               </svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+																	  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+																	</svg>
 			           </label>
 			       </div>
 			   </div>
 			   
 			   <br>
 			   <br>
-			   
-				<a href="/logout">ログアウト</a>
 		</div>
 	</aside_left>
 	
@@ -295,10 +304,12 @@
 								    <div class="popup-window">
 								        <p class="popup-text">
 											
-											項目更新
+											<p class="popUpText">
+												項目更新
+											</p>
 											
 											<form action="/calendar" method="get">
-																<table border="1">
+																<table border="1" class = "noBorderTable">
 																	<tr>
 																		<th>日付</th>
 																		<td>
@@ -333,7 +344,8 @@
 																	</tr>
 																</table>
 																<input type="hidden" name="editItem_id" th:value="${selectedItem.id}">
-																<button>更新</button>
+																<br>
+																<button class="centerButton">更新</button>
 															</form>
 															
 															<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">この項目を削除</a>
@@ -341,10 +353,9 @@
 											
 										</p>
 								        <label class="popup-close" for="popup_editItem">
-								            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
-								                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
-								                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
-								            </svg>
+											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+																						  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+																						</svg>
 								        </label>
 								    </div>
 								</div>
@@ -358,10 +369,12 @@
 								    <div class="popup-window">
 								        <p class="popup-text">
 											
-											項目追加
+											<p class="popUpText">
+												項目追加
+											</p>
 											
 											<form action="/calendar" method="get">
-																	<table border="1">
+																	<table border="1" class = "noBorderTable">
 																		<tr>
 																			<th>日付</th>
 																			<td>
@@ -396,17 +409,16 @@
 																		</tr>
 																	</table>
 																	<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
-																	
-																	<button>追加</button>
+																	<br>
+																	<button class="centerButton">追加</button>
 																</form>
 										
 											
 										</p>
 								        <label class="popup-close" for="popup_addItem">
-								            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
-								                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
-								                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
-								            </svg>
+											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+											  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+											</svg>
 								        </label>
 								    </div>
 								</div>
@@ -415,9 +427,13 @@
 	</aside_right>
 	
 	<footer>
-		<div id="sum">
-		[[${targetMonth}]]月の収支：[[${allIncomeAndExpensesInThisMonth}]]
-	</div>
+		<a href="/logout">ログアウト</a>
+		<p id="sumThisMonth">
+		[[${targetMonth}]]月の収支：[[${allIncomeAndExpensesInThisMonth}]]円
+	</p>
+	<p id="sum">
+	合計収支：[[${allIncomeAndExpenses}]]円
+	</p>
 	</footer>
 		
 </body>

@@ -76,7 +76,14 @@ public class ItemController {
 		for (Item item : itemList) {
 			allIncomeAndExpensesInThisMonth += item.getPriceWithSign();
 		}
-		model.addAttribute("allIncomeAndExpensesInThisMonth", allIncomeAndExpensesInThisMonth);
+
+		String sign = "";
+		if (allIncomeAndExpensesInThisMonth > 1) {
+			sign += "+";
+		}
+		String allIncomeAndExpensesInThisMonthText = sign + String.format("%1$,3d", allIncomeAndExpensesInThisMonth);
+
+		model.addAttribute("allIncomeAndExpensesInThisMonth", allIncomeAndExpensesInThisMonthText);
 
 		return "items";
 	}
@@ -407,7 +414,7 @@ public class ItemController {
 								fadedColor.getAlpha());
 
 						//文字カラーは黒くした方が見やすいので黒くする
-							textColor = "#00000060";
+						textColor = "#00000060";
 					}
 				}
 			}
@@ -429,7 +436,7 @@ public class ItemController {
 							fadedColor.getBlue(),
 							fadedColor.getAlpha());
 
-						textColor = "#00000060";
+					textColor = "#00000060";
 				}
 			}
 
@@ -468,8 +475,27 @@ public class ItemController {
 		for (Item item : itemListInMonth) {
 			allIncomeAndExpensesInThisMonth += item.getPriceWithSign();
 		}
-		model.addAttribute("allIncomeAndExpensesInThisMonth", allIncomeAndExpensesInThisMonth);
+		String sign = "";
+		if (allIncomeAndExpensesInThisMonth > 1) {
+			sign += "+";
+		}
+		String allIncomeAndExpensesInThisMonthText = sign + String.format("%1$,3d", allIncomeAndExpensesInThisMonth);
+
+		model.addAttribute("allIncomeAndExpensesInThisMonth", allIncomeAndExpensesInThisMonthText);
 		model.addAttribute("targetMonth", targetDate.getMonthValue());
+
+		//全体の収支を計算
+		int allIncomeAndExpenses = 0;
+		for (Item item : itemList) {
+			allIncomeAndExpenses += item.getPriceWithSign();
+		}
+		String sign2 = "";
+		if (allIncomeAndExpenses > 1) {
+			sign2 += "+";
+		}
+		String allIncomeAndExpensesText = sign2 + String.format("%1$,3d", allIncomeAndExpenses);
+
+		model.addAttribute("allIncomeAndExpenses", allIncomeAndExpensesText);
 
 		return "calendarView";
 	}
