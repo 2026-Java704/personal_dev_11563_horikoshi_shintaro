@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>カレンダー表示</title>
+	<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+	<style>
+		#calendar {
+			width: 10px;
+			margin: 0px auto;
+		}
+	</style>
+	<link rel="stylesheet" href="/css/testStyle.css">
+</head>
+
+<body>
+	
+	<aside_left>
+		
+	</aside_left>
+	
+	<article>
+		
+		<div id="calendar"></div>
+			<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+
+			<script>
+				document.addEventListener('DOMContentLoaded', function () {
+					var calendarEl = document.getElementById('calendar');
+
+					var calendar = new FullCalendar.Calendar(calendarEl, {
+						initialView: 'dayGridMonth',
+						locale: 'ja',
+						events: [
+							{
+								title: 'サンプル予定',
+								start: '2026-04-27'
+							}
+						]
+					});
+					calendar.render();
+				});
+			</script>
+		
+	</article>
+	
+	<aside_right>
+			
+	</aside_right>
+	
+	<footer>
+		
+	</footer>
+	
+</body>
+
+</html>

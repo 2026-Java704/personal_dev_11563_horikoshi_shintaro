@@ -1,0 +1,39 @@
+body {
+    height: 100vh;
+	width: 100vw;
+	overflow: hidden; 
+}
+ 
+ 
+aside_left {
+    background-color: yellow;
+    height: 80%;
+    width: 15%;
+    float: left;
+	overflow: auto;
+}
+
+aside_right {
+    background-color: rgb(0, 0, 255);
+    height: 80%;
+    width: 15%;
+    float: left;
+	overflow: auto;
+}
+ 
+article {
+    background-color: lime;
+    height: 80%;
+    width: 70%;
+    float: left;
+	overflow: auto;
+}
+ 
+footer {
+    background: cyan;
+    height: 20%;
+    width: 100%;
+    clear: both;
+	overflow: auto;
+}
+
