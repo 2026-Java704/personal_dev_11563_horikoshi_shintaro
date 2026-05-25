@@ -9,22 +9,38 @@ form{
 }
 
 .centerButton {
-  padding: .4rem 2rem;
+  padding: .4rem 2rem .6rem;;
   color: #FFF;
   border-radius: 10rem;
   background: linear-gradient(-45deg, rgb(37, 37, 37) 35%, rgb(49, 49, 49));
   border: none;
-  text-align: center;
+  text-align:center;
 }
 
 #logout{
 	    text-decoration: none;
 		color:rgb(37, 37, 37);
 		position: absolute;
-		top:92%;
+		top:94%;
 		left: 1%;
 }
 
+.deleteButton{
+    position: absolute;
+	transform: translate(-50%, -50%);
+    /* 位置の調整（環境に合わせて数値を変更してください） */
+    top: 90%;
+    left: 93%; 
+	color: #333;
+}
+
+#selectedDate{
+	text-align: center;
+	justify-self: center;
+	font-size: 120%;
+	font-weight: bold;
+	margin-top: 1em;
+}
 
 
 .edit_genreButton{
@@ -45,6 +61,7 @@ form{
   text-align: center;
   font-size: 110%;
   font-weight: bold;
+  color :rgb(37, 37, 37)
 }
 .line-text::before, .line-text::after {
   content: '';
@@ -56,6 +73,12 @@ form{
 }
 .line-text::after {
   margin-left: 1em; /* 文字と右線の間隔 */
+}
+
+.details{
+    text-align: center;
+    margin: 10px 0;
+	justify-self: center;
 }
 
 
@@ -79,6 +102,7 @@ form{
 	justify-self: center;
 	font-size: 120%;
 	font-weight: bold;
+	color:rgb(37, 37, 37)
 	
 }
 
@@ -183,6 +207,7 @@ footer {
   transform: translate(-50%, -50%);
   top:5%;
   left: 50%;
+  color:rgb(37, 37, 37)
 }
 
 .fc {
@@ -194,6 +219,8 @@ footer {
   top: 10px;
   right: 10px;
   z-index: 5; /* Keep it above the calendar content */
+  background-color:#333;
+  border-color: #333;
 }
 
 /* チェックボックス（input）を非表示にする */

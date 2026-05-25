@@ -12,437 +12,507 @@
 <body>
 	<aside_left>
 		<div id="menu">
-				
-				<a th:href="@{/calendar(showAll=true)}">全項目を表示</a>
-				<br>
-				<br>
-				<div class="line-text">収入</div>
-				
-				<div th:each="genre:${genres_income}" style="position: relative;">
-			
-				<a th:href="@{/calendar(showAll=false, genreId=${genre.id})} " 
-				   class="genres"
-				   th:id="'genreButton-' + ${genre.id}"
-				   th:text="${genre.genreName}"
-				   th:style="'background: ' + ${genre.getColorHex()} + '; color: ' + ${genre.getInvetColorHex()}">
-			   </a>
-				   
-				   <div  class="edit_genreButton"  th:if="${selectedGenre != null && selectedGenre.id == genre.id}" >
-					
-					<input type="checkbox" id="popup_editGenre"  class="popup-toggle" >
-						   						<label class="popup-open" for="popup_editGenre">
-													<svg class="edit_genreImage" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><title xmlns="">edit-filled</title><path fill="currentColor" d="M5 21h14c1.1 0 2-.9 2-2v-8h-2v8H5V5h8V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2"/><path fill="currentColor" d="M7 14v2c0 .55.45 1 1 1h2c.27 0 .52-.11.71-.29l7.65-7.65l-3.41-3.41L7.3 13.3a1 1 0 0 0-.29.71Zm13.71-7.29a.996.996 0 0 0 0-1.41l-2-2a.996.996 0 0 0-1.41 0l-1.65 1.65l3.41 3.41z"/></svg>	
-													</label>
-						   						<div class="popup-overlay">
-						   						    <div class="popup-window">
-						   						        <p class="popup-text">
-						   									
-															<p class="popUpText">
-																ジャンル更新
-															</p>
-						   									
-						   		
-															<form action="/calendar" method="get">
-																			<table border="1" class = "noBorderTable">
-																				<tr>
-																					<th>名前</th>
-																					<td>
-																						<input type="text" name="editGenre_name" th:value="${selectedGenre.genreName}">
-																					</td>
-																				</tr>
-																				<tr>
-																					<th>収入ですか？</th>
-																					<td>
-																						<input type="checkbox" name="editGenre_isIncome" th:checked="${selectedGenre.isIncome}">
-																					</td>
-																				</tr>
-																				<tr>
-																					<th>色</th>
-																					<td>
-																						<input type="color" name="editGenre_color" th:value="${selectedGenre.getColorHex().substring(0, 7)}">
-																					</td>
-																				</tr>
-																			</table>
-																			<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
-																			<br>
-																			<button class="centerButton">変更</button>
-																		</form>
-																		
-																		<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
-						   									
-						   								</p>
-						   						        <label class="popup-close" for="popup_editGenre">
-															<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-																										  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-																										</svg>
-						   						        </label>
-						   						    </div>
-						   						</div>
-						   						
-						   	</div>
-				   </div>
-				<br>
-					<div class="line-text">支出</div>
-				
-				<div th:each="genre:${genres_outcome}" style="position: relative;">
-					<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" 
-					class="genres"
-					   th:text="${genre.genreName}"
-					  th:style="'background: ' + ${genre.getColorHex()} + '; color: ' + ${genre.getInvetColorHex()}"></a>
-					   
-					   <div class="edit_genreButton" th:if="${selectedGenre != null &&  selectedGenre.id == genre.id}">
-					   			<input type="checkbox" id="popup_editGenre"  class="popup-toggle" >
-					   				   						<label class="popup-open" for="popup_editGenre">
-																<svg class="edit_genreImage" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><title xmlns="">edit-filled</title><path fill="currentColor" d="M5 21h14c1.1 0 2-.9 2-2v-8h-2v8H5V5h8V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2"/><path fill="currentColor" d="M7 14v2c0 .55.45 1 1 1h2c.27 0 .52-.11.71-.29l7.65-7.65l-3.41-3.41L7.3 13.3a1 1 0 0 0-.29.71Zm13.71-7.29a.996.996 0 0 0 0-1.41l-2-2a.996.996 0 0 0-1.41 0l-1.65 1.65l3.41 3.41z"/></svg>	
-																													
-															</label>
-					   				   						<div class="popup-overlay">
-					   				   						    <div class="popup-window">
-					   				   						        <p class="popup-text">
-					   				   									
-																		<p class="popUpText">
-																			ジャンル編集
-																		</p>
-					   				   									
-					   													<form action="/calendar" method="get">
-					   																	<table border="1" class = "noBorderTable">
-					   																		<tr>
-					   																			<th>名前</th>
-					   																			<td>
-					   																				<input type="text" name="editGenre_name" th:value="${selectedGenre.genreName}">
-					   																			</td>
-					   																		</tr>
-					   																		<tr>
-					   																			<th>収入ですか？</th>
-					   																			<td>
-					   																				<input type="checkbox" name="editGenre_isIncome" th:checked="${selectedGenre.isIncome}">
-					   																			</td>
-					   																		</tr>
-					   																		<tr>
-					   																			<th>色</th>
-					   																			<td>
-					   																				<input type="color" name="editGenre_color" th:value="${selectedGenre.getColorHex().substring(0, 7)}">
-					   																			</td>
-					   																		</tr>
-					   																	</table>
-					   																	<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
-																						<br>
-					   																	<button class="centerButton">変更</button>
-					   																</form>
-					   																
-					   																<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">このジャンルを削除</a>
-					   				   									
-					   				   								</p>
-					   				   						        <label class="popup-close" for="popup_editGenre">
-																		<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-																													  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-																													</svg>
-					   				   						        </label>
-					   				   						    </div>
-					   				   						</div>
-					   				   						
-					   				   	</div>
+
+			<a th:href="@{/calendar(showAll=true)}">全項目を表示</a>
+			<br>
+			<br>
+			<div class="line-text">収入</div>
+
+			<div th:each="genre:${genres_income}" style="position: relative;">
+
+				<a th:href="@{/calendar(showAll=false, genreId=${genre.id})} " class="genres"
+					th:id="'genreButton-' + ${genre.id}" th:text="${genre.genreName}"
+					th:style="'background: ' + ${genre.getColorHex()} + '; color: ' + ${genre.getInvetColorHex()}">
+				</a>
+
+				<div class="edit_genreButton" th:if="${selectedGenre != null && selectedGenre.id == genre.id}">
+
+					<input type="checkbox" id="popup_editGenre" class="popup-toggle">
+					<label class="popup-open" for="popup_editGenre">
+						<svg class="edit_genreImage" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+							viewBox="0 0 24 24">
+							<title xmlns="">edit-filled</title>
+							<path fill="currentColor"
+								d="M5 21h14c1.1 0 2-.9 2-2v-8h-2v8H5V5h8V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2" />
+							<path fill="currentColor"
+								d="M7 14v2c0 .55.45 1 1 1h2c.27 0 .52-.11.71-.29l7.65-7.65l-3.41-3.41L7.3 13.3a1 1 0 0 0-.29.71Zm13.71-7.29a.996.996 0 0 0 0-1.41l-2-2a.996.996 0 0 0-1.41 0l-1.65 1.65l3.41 3.41z" />
+						</svg>
+					</label>
+					<div class="popup-overlay">
+						<div class="popup-window">
+							<p class="popup-text">
+
+							<p class="popUpText" style="position: relative;">
+								ジャンル更新
+							</p>
+
+
+							<form action="/calendar" method="get">
+								<table border="1" class="noBorderTable">
+									<tr>
+										<th>名前</th>
+										<td>
+											<input type="text" name="editGenre_name"
+												th:value="${selectedGenre.genreName}">
+										</td>
+									</tr>
+									<tr>
+										<th>収入ですか？</th>
+										<td>
+											<input type="checkbox" name="editGenre_isIncome"
+												th:checked="${selectedGenre.isIncome}">
+										</td>
+									</tr>
+									<tr>
+										<th>色</th>
+										<td>
+											<input type="color" name="editGenre_color"
+												th:value="${selectedGenre.getColorHex().substring(0, 7)}">
+										</td>
+									</tr>
+								</table>
+								<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
+								<br>
+								<button class="centerButton">変更</button>
+							</form>
+
+							<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">
+								<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em"
+									height="1.5em" viewBox="0 0 24 24">
+									<title xmlns="">delete</title>
+									<path fill="currentColor"
+										d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
+								</svg>
+
+							</a>
+
+							</p>
+							<label class="popup-close" for="popup_editGenre">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+									class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+									<circle cx="8" cy="8" r="8" fill="currentColor" stroke="none" />
+									<path
+										d="M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
+										fill="#ffffff" />
+								</svg>
+							</label>
+						</div>
+					</div>
+
 				</div>
-						   
-			   <br>
-			   
-			   <input type="checkbox" id="popup_addGenre" class="popup-toggle">
-			   <label class="popup-open" for="popup_addGenre">+ジャンルを追加する</label>
-			   <div class="popup-overlay">
-			       <div class="popup-window">
-			           <p class="popup-text">
-						
-						<p class="popUpText">
-							ジャンル追加
-						</p>
-						
-						<form action="/calendar" method="get">
-										<table border="1" class = "noBorderTable">
-											<tr>
-												<th>名前</th>
-												<td>
-													<input type="text" name="addGenre_name">
-												</td>
-											</tr>
-											<tr>
-												<th>収入ですか？</th>
-												<td>
-													<input type="checkbox" name="addGenre_isIncome">
-												</td>
-											</tr>
-											<tr>
-												<th>色</th>
-												<td>
-													<input type="color" name="addGenre_color">
-												</td>
-											</tr>
-										</table>
-										<br>
-										<button class="centerButton">追加</button>
-									</form>
-						
-						</p>
-			           <label class="popup-close" for="popup_addGenre">
-						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-																	  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-																	</svg>
-			           </label>
-			       </div>
-			   </div>
-			   
-			   <br>
-			   <br>
+			</div>
+			<br>
+			<div class="line-text">支出</div>
+
+			<div th:each="genre:${genres_outcome}" style="position: relative;">
+				<a th:href="@{/calendar(showAll=false, genreId=${genre.id})}" class="genres"
+					th:text="${genre.genreName}"
+					th:style="'background: ' + ${genre.getColorHex()} + '; color: ' + ${genre.getInvetColorHex()}"></a>
+
+				<div class="edit_genreButton" th:if="${selectedGenre != null &&  selectedGenre.id == genre.id}">
+					<input type="checkbox" id="popup_editGenre" class="popup-toggle">
+					<label class="popup-open" for="popup_editGenre">
+						<svg class="edit_genreImage" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+							viewBox="0 0 24 24">
+							<title xmlns="">edit-filled</title>
+							<path fill="currentColor"
+								d="M5 21h14c1.1 0 2-.9 2-2v-8h-2v8H5V5h8V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2" />
+							<path fill="currentColor"
+								d="M7 14v2c0 .55.45 1 1 1h2c.27 0 .52-.11.71-.29l7.65-7.65l-3.41-3.41L7.3 13.3a1 1 0 0 0-.29.71Zm13.71-7.29a.996.996 0 0 0 0-1.41l-2-2a.996.996 0 0 0-1.41 0l-1.65 1.65l3.41 3.41z" />
+						</svg>
+
+					</label>
+					<div class="popup-overlay">
+						<div class="popup-window">
+							<p class="popup-text" style="position: relative;">
+
+							<p class="popUpText">
+								ジャンル編集
+							</p>
+
+							<form action="/calendar" method="get">
+								<table border="1" class="noBorderTable">
+									<tr>
+										<th>名前</th>
+										<td>
+											<input type="text" name="editGenre_name"
+												th:value="${selectedGenre.genreName}">
+										</td>
+									</tr>
+									<tr>
+										<th>収入ですか？</th>
+										<td>
+											<input type="checkbox" name="editGenre_isIncome"
+												th:checked="${selectedGenre.isIncome}">
+										</td>
+									</tr>
+									<tr>
+										<th>色</th>
+										<td>
+											<input type="color" name="editGenre_color"
+												th:value="${selectedGenre.getColorHex().substring(0, 7)}">
+										</td>
+									</tr>
+								</table>
+								<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
+								<br>
+								<button class="centerButton">変更</button>
+							</form>
+
+							<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">
+								<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em"
+									height="1.5em" viewBox="0 0 24 24">
+									<title xmlns="">delete</title>
+									<path fill="currentColor"
+										d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
+								</svg>
+
+							</a>
+
+							</p>
+							<label class="popup-close" for="popup_editGenre">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+									class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+									<circle cx="8" cy="8" r="8" fill="currentColor" stroke="none" />
+									<path
+										d="M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
+										fill="#ffffff" />
+								</svg>
+							</label>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<br>
+
+			<input type="checkbox" id="popup_addGenre" class="popup-toggle">
+			<label class="popup-open" for="popup_addGenre">
+				<div class="centerButton">
+					+タグを追加
+				</div>
+			</label>
+			<div class="popup-overlay">
+				<div class="popup-window">
+					<p class="popup-text">
+
+					<p class="popUpText">
+						ジャンル追加
+					</p>
+
+					<form action="/calendar" method="get">
+						<table border="1" class="noBorderTable">
+							<tr>
+								<th>名前</th>
+								<td>
+									<input type="text" name="addGenre_name">
+								</td>
+							</tr>
+							<tr>
+								<th>収入ですか？</th>
+								<td>
+									<input type="checkbox" name="addGenre_isIncome">
+								</td>
+							</tr>
+							<tr>
+								<th>色</th>
+								<td>
+									<input type="color" name="addGenre_color">
+								</td>
+							</tr>
+						</table>
+						<br>
+						<button class="centerButton">追加</button>
+					</form>
+
+					</p>
+					<label class="popup-close" for="popup_addGenre">
+						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+							class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+							<circle cx="8" cy="8" r="8" fill="currentColor" stroke="none" />
+							<path
+								d="M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
+								fill="#ffffff" />
+						</svg>
+					</label>
+				</div>
+			</div>
+
+			<br>
+			<br>
 		</div>
 	</aside_left>
-	
+
 	<article>
 		<div id="calendar">
-				
-				<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-				<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
 
-				<script th:inline="javascript">
-					document.addEventListener('DOMContentLoaded', function () {
-						var calendarEl = document.getElementById('calendar');
-						var eventData = /*[[${calendarEvents}]]*/[];
-						
-						var currentMonthDate = null;
+			<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
 
-						var calendar = new FullCalendar.Calendar(calendarEl, {
-							initialView: 'dayGridMonth',
-							initialDate: /*[[${initialDate}]]*/'',
-							locale: 'ja',
-							events: eventData,
-							
-							dayCellDidMount: function(info) {
-								const dateStr = info.date.toString();
-								const formattedDate = new Intl.DateTimeFormat('ja-JP', {
-								    year: 'numeric',
-								    month: '2-digit',
-								    day: '2-digit',
-								    timeZone: 'Asia/Tokyo'
-								}).format(info.date).replace(/\//g, '-');
-								
+			<script th:inline="javascript">
+				document.addEventListener('DOMContentLoaded', function () {
+					var calendarEl = document.getElementById('calendar');
+					var eventData = /*[[${calendarEvents}]]*/[];
 
-								if( formattedDate === /*[[${selectedDate}]]*/ ""){
-									info.el.style.backgroundColor = '#ffcccc'; 
-								}
-							},
-														
-							customButtons: {
-							    customPrev: {
-							      text: '前月',
-							      click: function() {
-									var date =  new Date(/*[[${showingDate}]]*/'');
+					var currentMonthDate = null;
+
+					var calendar = new FullCalendar.Calendar(calendarEl, {
+						initialView: 'dayGridMonth',
+						initialDate: /*[[${initialDate}]]*/'',
+						locale: 'ja',
+						events: eventData,
+
+						dayCellDidMount: function (info) {
+							const dateStr = info.date.toString();
+							const formattedDate = new Intl.DateTimeFormat('ja-JP', {
+								year: 'numeric',
+								month: '2-digit',
+								day: '2-digit',
+								timeZone: 'Asia/Tokyo'
+							}).format(info.date).replace(/\//g, '-');
+
+
+							if (formattedDate === /*[[${selectedDate}]]*/ "") {
+								info.el.style.backgroundColor = '#ffcccc';
+							}
+						},
+
+						customButtons: {
+							customPrev: {
+								text: '前月',
+								click: function () {
+									var date = new Date(/*[[${showingDate}]]*/'');
 									date.setDate(1);
 									date.setMonth(date.getMonth() - 1);
 									data = new Intl.DateTimeFormat('ja-JP', {
-														    year: 'numeric',
-														    month: '2-digit',
-														    day: '2-digit'
-														  }).format(date).replace(/\//g, '-');
-							        window.location.href = '/calendar?showingDate=' + data;
-							      }
-							    },
-							    customNext: {
-							      text: '次月',
-								  click: function() {
-			  						var date =  new Date(/*[[${showingDate}]]*/'');
-			  						date.setDate(1);
-			  						date.setMonth(date.getMonth() + 1);
-			  						data = new Intl.DateTimeFormat('ja-JP', {
-			  											    year: 'numeric',
-			  											    month: '2-digit',
-			  											    day: '2-digit'
-			  											  }).format(date).replace(/\//g, '-');
-			  				        window.location.href = '/calendar?showingDate=' + data;
-			  				      }
-							    }
-							  },
-							  headerToolbar: {
-							    right: 'customPrev,customNext',
-							    center: 'title',
-								left:''
-							  },
-							
-							eventClick: function(info) {
-							               // Java側から渡した "id" を取得
-							               const eventId = info.event.id;
-							               // IDをパラメータに付けてJava側へ画面遷移
-							               window.location.href = '/calendar?selectedDate=' + info.event.startStr + '&id=' + eventId;
+										year: 'numeric',
+										month: '2-digit',
+										day: '2-digit'
+									}).format(date).replace(/\//g, '-');
+									window.location.href = '/calendar?showingDate=' + data;
+								}
 							},
-							
-						   	dateClick: function(info) {
-			   					          window.location.href = '/calendar?selectedDate=' + info.dateStr ;
-							},
-										  
-							});
-						calendar.render();
+							customNext: {
+								text: '次月',
+								click: function () {
+									var date = new Date(/*[[${showingDate}]]*/'');
+									date.setDate(1);
+									date.setMonth(date.getMonth() + 1);
+									data = new Intl.DateTimeFormat('ja-JP', {
+										year: 'numeric',
+										month: '2-digit',
+										day: '2-digit'
+									}).format(date).replace(/\//g, '-');
+									window.location.href = '/calendar?showingDate=' + data;
+								}
+							}
+						},
+						headerToolbar: {
+							right: 'customPrev,customNext',
+							center: 'title',
+							left: ''
+						},
+
+						eventClick: function (info) {
+							// Java側から渡した "id" を取得
+							const eventId = info.event.id;
+							// IDをパラメータに付けてJava側へ画面遷移
+							window.location.href = '/calendar?selectedDate=' + info.event.startStr + '&id=' + eventId;
+						},
+
+						dateClick: function (info) {
+							window.location.href = '/calendar?selectedDate=' + info.dateStr;
+						},
+
 					});
-				</script>
-				
-				
-			</div>
+					calendar.render();
+				});
+			</script>
+
+
+		</div>
 	</article>
-	
+
 	<aside_right>
 		<div id="detail">
-				<div>[[${selectedDate}]]</div>
-				
+			<div id="selectedDate">[[${selectedDate}]]</div>
+
+			<br>
+
+			<div th:if="${selectedItem}" class="details">
+				[[${selectedItem.itemName}]]
 				<br>
-				
-				<div th:if="${selectedItem}">
-					[[${selectedItem.itemName}]]
-					<br>
-					[[${selectedItem.price}]]
-					<br>
-					[[${selectedItem.genre.genreName}]]
-					<br>
-					[[${selectedItem.comment}]]
-					
-					
-					<input type="checkbox" id="popup_editItem"  class="popup-toggle">
-								<label class="popup-open" for="popup_editItem">項目を更新する</label>
-								<div class="popup-overlay">
-								    <div class="popup-window">
-								        <p class="popup-text">
-											
-											<p class="popUpText">
-												項目更新
-											</p>
-											
-											<form action="/calendar" method="get">
-																<table border="1" class = "noBorderTable">
-																	<tr>
-																		<th>日付</th>
-																		<td>
-																			<input type="date" name="editItem_addDate" th:value="${selectedItem.addDate}">
-																		</td>
-																	</tr>
-																	<tr>
-																		<th>名前</th>
-																		<td>
-																			<input type="text" name="editItem_name" th:value="${selectedItem.itemName}">
-																		</td>
-																	</tr>
-																	<tr>
-																		<th>ジャンル</th>
-																		<td>
-																			<select name = "editItem_genreId">
-																				<option th:each="genre:${genres}" th:value="${genre.id}"  th:selected="${genre.id} == ${selectedItem.genre.id}">[[${genre.genreName}]]</option>
-																			</select>
-																		</td>
-																	</tr>
-																	<tr>
-																		<th>値段</th>
-																		<td>
-																			<input type="number" name="editItem_price" th:value="${selectedItem.price}">
-																		</td>
-																	</tr>
-																	<tr>
-																		<th>コメント</th>
-																		<td>
-																			<textarea name="editItem_comment" th:text="${selectedItem.comment}"></textarea>
-																		</td>
-																	</tr>
-																</table>
-																<input type="hidden" name="editItem_id" th:value="${selectedItem.id}">
-																<br>
-																<button class="centerButton">更新</button>
-															</form>
-															
-															<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">この項目を削除</a>
-										
-											
-										</p>
-								        <label class="popup-close" for="popup_editItem">
-											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-																						  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-																						</svg>
-								        </label>
-								    </div>
-								</div>
-						
-					
+				[[${selectedItem.getPriceWithSignString()}]]円
+				<br>
+				[[${selectedItem.genre.genreName}]]
+				<br>
+				[[${selectedItem.comment}]]
+
+
+				<input type="checkbox" id="popup_editItem" class="popup-toggle">
+				<label class="popup-open" for="popup_editItem">更新マーク□</label>
+				<div class="popup-overlay">
+					<div class="popup-window">
+						<p class="popup-text">
+
+						<p class="popUpText">
+							項目更新
+						</p>
+
+						<form action="/calendar" method="get">
+							<table border="1" class="noBorderTable">
+								<tr>
+									<th>日付</th>
+									<td>
+										<input type="date" name="editItem_addDate" th:value="${selectedItem.addDate}">
+									</td>
+								</tr>
+								<tr>
+									<th>名前</th>
+									<td>
+										<input type="text" name="editItem_name" th:value="${selectedItem.itemName}">
+									</td>
+								</tr>
+								<tr>
+									<th>ジャンル</th>
+									<td>
+										<select name="editItem_genreId">
+											<option th:each="genre:${genres}" th:value="${genre.id}"
+												th:selected="${genre.id} == ${selectedItem.genre.id}">
+												[[${genre.genreName}]]</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>値段</th>
+									<td>
+										<input type="number" name="editItem_price" th:value="${selectedItem.price}">
+									</td>
+								</tr>
+								<tr>
+									<th>コメント</th>
+									<td>
+										<textarea name="editItem_comment" th:text="${selectedItem.comment}"></textarea>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="editItem_id" th:value="${selectedItem.id}">
+							<br>
+							<button class="centerButton">更新</button>
+						</form>
+
+						<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">この項目を削除</a>
+
+
+						</p>
+						<label class="popup-close" for="popup_editItem">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+								class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+								<circle cx="8" cy="8" r="8" fill="currentColor" stroke="none" />
+								<path
+									d="M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
+									fill="#ffffff" />
+							</svg>
+						</label>
+					</div>
 				</div>
-				
-				<input type="checkbox" id="popup_addItem"  class="popup-toggle" th:if="${selectedDate !=null}">
-								<label class="popup-open" for="popup_addItem">+追加する</label>
-								<div class="popup-overlay">
-								    <div class="popup-window">
-								        <p class="popup-text">
-											
-											<p class="popUpText">
-												項目追加
-											</p>
-											
-											<form action="/calendar" method="get">
-																	<table border="1" class = "noBorderTable">
-																		<tr>
-																			<th>日付</th>
-																			<td>
-																				[[${selectedDate}]]
-																			</td>
-																		</tr>
-																		<tr>
-																			<th>名前</th>
-																			<td>
-																				<input type="text" name="addItem_name">
-																			</td>
-																		</tr>
-																		<tr>
-																			<th>ジャンル</th>
-																			<td>
-																				<select name = "addItem_genreId">
-																					<option th:each="genre:${genres}" th:value="${genre.id}">[[${genre.genreName}]]</option>
-																				</select>
-																			</td>
-																		</tr>
-																		<tr>
-																			<th>値段</th>
-																			<td>
-																				<input type="number" name="addItem_price">
-																			</td>
-																		</tr>
-																		<tr>
-																			<th>コメント</th>
-																			<td>
-																				<textarea name="addItem_comment"></textarea>
-																			</td>
-																		</tr>
-																	</table>
-																	<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
-																	<br>
-																	<button class="centerButton">追加</button>
-																</form>
-										
-											
-										</p>
-								        <label class="popup-close" for="popup_addItem">
-											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-											  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-											</svg>
-								        </label>
-								    </div>
-								</div>
-								
+
+				<input type="checkbox" id="popup_addItem" class="popup-toggle" th:if="${selectedDate !=null}">
+				<label class="popup-open" for="popup_addItem">
+					<div class="centerButton">
+						+この日に追加
+					</div>
+				</label>
+				<div class="popup-overlay">
+					<div class="popup-window">
+						<p class="popup-text">
+
+						<p class="popUpText">
+							項目追加
+						</p>
+
+						<form action="/calendar" method="get">
+							<table border="1" class="noBorderTable">
+								<tr>
+									<th>日付</th>
+									<td>
+										[[${selectedDate}]]
+									</td>
+								</tr>
+								<tr>
+									<th>名前</th>
+									<td>
+										<input type="text" name="addItem_name">
+									</td>
+								</tr>
+								<tr>
+									<th>ジャンル</th>
+									<td>
+										<select name="addItem_genreId">
+											<option th:each="genre:${genres}" th:value="${genre.id}">
+												[[${genre.genreName}]]
+											</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>値段</th>
+									<td>
+										<input type="number" name="addItem_price">
+									</td>
+								</tr>
+								<tr>
+									<th>コメント</th>
+									<td>
+										<textarea name="addItem_comment"></textarea>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
+							<br>
+							<button class="centerButton">追加</button>
+						</form>
+
+
+						</p>
+						<label class="popup-close" for="popup_addItem">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+								class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+								<circle cx="8" cy="8" r="8" fill="currentColor" stroke="none" />
+								<path
+									d="M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
+									fill="#ffffff" />
+							</svg>
+						</label>
+					</div>
+				</div>
+
 			</div>
+		</div>
 	</aside_right>
-	
+
 	<footer>
 		<a href="/logout" id="logout">
-			<svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24"><title xmlns="">exit-bold</title><path fill="currentColor" fill-rule="evenodd" d="M9.707 2.409C9 3.036 9 4.183 9 6.476v11.048c0 2.293 0 3.44.707 4.067s1.788.439 3.95.062l2.33-.406c2.394-.418 3.591-.627 4.302-1.505c.711-.879.711-2.149.711-4.69V8.948c0-2.54 0-3.81-.71-4.689c-.712-.878-1.91-1.087-4.304-1.504l-2.328-.407c-2.162-.377-3.243-.565-3.95.062M12 10.169c.414 0 .75.351.75.784v2.094c0 .433-.336.784-.75.784s-.75-.351-.75-.784v-2.094c0-.433.336-.784.75-.784" clip-rule="evenodd"/><path fill="currentColor" d="M7.547 4.5c-2.058.003-3.131.048-3.815.732C3 5.964 3 7.142 3 9.5v5c0 2.357 0 3.535.732 4.268c.684.683 1.757.729 3.815.732c-.047-.624-.047-1.344-.047-2.123V6.623c0-.78 0-1.5.047-2.123"/></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+				<title xmlns="">exit-bold</title>
+				<path fill="currentColor" fill-rule="evenodd"
+					d="M9.707 2.409C9 3.036 9 4.183 9 6.476v11.048c0 2.293 0 3.44.707 4.067s1.788.439 3.95.062l2.33-.406c2.394-.418 3.591-.627 4.302-1.505c.711-.879.711-2.149.711-4.69V8.948c0-2.54 0-3.81-.71-4.689c-.712-.878-1.91-1.087-4.304-1.504l-2.328-.407c-2.162-.377-3.243-.565-3.95.062M12 10.169c.414 0 .75.351.75.784v2.094c0 .433-.336.784-.75.784s-.75-.351-.75-.784v-2.094c0-.433.336-.784.75-.784"
+					clip-rule="evenodd" />
+				<path fill="currentColor"
+					d="M7.547 4.5c-2.058.003-3.131.048-3.815.732C3 5.964 3 7.142 3 9.5v5c0 2.357 0 3.535.732 4.268c.684.683 1.757.729 3.815.732c-.047-.624-.047-1.344-.047-2.123V6.623c0-.78 0-1.5.047-2.123" />
+			</svg>
 		</a>
-		
-		
+
+
 		<p id="sumThisMonth">
-		[[${targetMonth}]]月の収支：[[${allIncomeAndExpensesInThisMonth}]]円
-	</p>
-	<p id="sum">
-	合計収支：[[${allIncomeAndExpenses}]]円
-	</p>
+			[[${targetMonth}]]月の収支：[[${allIncomeAndExpensesInThisMonth}]]円
+		</p>
+		<p id="sum">
+			合計収支：[[${allIncomeAndExpenses}]]円
+		</p>
 	</footer>
-		
+
 </body>
 
 </html>
