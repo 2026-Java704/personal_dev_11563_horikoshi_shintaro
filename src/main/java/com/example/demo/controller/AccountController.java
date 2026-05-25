@@ -105,7 +105,7 @@ public class AccountController {
 			account.setUser(targetUser);
 			account.setSetting(new Setting(true, null, LocalDate.now(), LocalDate.now()));
 			// 「/items」へのリダイレクト
-			return "redirect:/items";
+			return "redirect:/calendar";
 
 		} else {
 

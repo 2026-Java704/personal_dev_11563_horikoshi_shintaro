@@ -330,22 +330,24 @@
 		</div>
 	</article>
 
-	<aside_right>
+	<aside_right style="position: relative;">
 		<br>
 		<div id="selectedDate">[[${selectedDate}]]</div>
 
-		<div th:if="${selectedItem}" class="details" style="position: relative;">
+		<div th:if="${selectedItem}" class="details" >
 			<div id="detail">
 				<div id="detail_genre"
 					th:style="'background: ' + ${selectedItem.genre.getColorHex()} + '; color: ' + ${selectedItem.genre.getInvetColorHex()}">
 					[[${selectedItem.genre.genreName}]]
 				</div>
 				<br>
-
-				[[${selectedItem.itemName}]]
+				<div id="detail_itemName">
+					[[${selectedItem.itemName}]]
+				</div>
+				
 
 				<div id="detail_price">
-					[[${selectedItem.getPriceWithSignString()}]]円
+					[[${selectedItem.getPriceWithSignString()}]] 円
 				</div>
 
 				<div id="detail_comment">
@@ -355,7 +357,7 @@
 
 			</div>
 
-			<div class="edit_itemButton">
+			<div id="edit_itemButton">
 				<input type="checkbox" id="popup_editItem" class="popup-toggle">
 				<label class="popup-open" for="popup_editItem">
 					<svg class="edit_genreImage" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"

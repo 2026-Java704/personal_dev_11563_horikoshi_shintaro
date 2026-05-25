@@ -52,10 +52,10 @@ form {
 	left: 80%;
 }
 
-.edit_itemButton {
+#edit_itemButton {
 	position: absolute;
-	top: 2em;
-	left: 86%;
+	top: 18.5%;
+	left: 80%;
 }
 
 .edit_genreImage {
@@ -98,6 +98,7 @@ form {
 #detail {
 	font-weight: bold;
 	font-size: 140%;
+	overflow-wrap: break-word;
 }
 
 #detail_genre {
@@ -118,8 +119,17 @@ form {
 	text-decoration:underline;
 }
 
+#detail_itemName {
+	overflow-wrap: break-word;
+	text-align: center;
+	justify-self: center;
+}
+
 #detail_comment {
 	font-size: 18px;
+	overflow-wrap: break-word;
+	text-align: center;
+	justify-self: center;
 }
 
 #addItemButton {
