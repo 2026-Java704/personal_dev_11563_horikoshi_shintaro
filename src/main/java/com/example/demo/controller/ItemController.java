@@ -404,7 +404,7 @@ public class ItemController {
 								color.getRed(),
 								color.getGreen(),
 								color.getBlue(),
-								60);
+								50);
 
 						// #RRGGBBAA 形式の文字列に変換して永続化用フィールドにセット
 						backGroundColor = String.format("#%02X%02X%02X%02X",
@@ -427,7 +427,7 @@ public class ItemController {
 							color.getRed(),
 							color.getGreen(),
 							color.getBlue(),
-							60);
+							50);
 
 					// #RRGGBBAA 形式の文字列に変換して永続化用フィールドにセット
 					backGroundColor = String.format("#%02X%02X%02X%02X",
