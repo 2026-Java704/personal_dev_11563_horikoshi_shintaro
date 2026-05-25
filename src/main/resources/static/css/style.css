@@ -1,40 +1,41 @@
 body {
-    height: 100vh;
+	height: 100vh;
 	width: 100vw;
-	overflow: hidden; 
+	overflow: hidden;
 }
 
-form{
+form {
 	text-align: center;
 }
 
 .centerButton {
-  padding: .4rem 2rem .6rem;;
-  color: #FFF;
-  border-radius: 10rem;
-  background: linear-gradient(-45deg, rgb(37, 37, 37) 35%, rgb(49, 49, 49));
-  border: none;
-  text-align:center;
+	padding: .4rem 2rem .6rem;
+	color: #FFF;
+	border-radius: 10rem;
+	background: linear-gradient(-45deg, rgb(37, 37, 37) 35%, rgb(49, 49, 49));
+	border: none;
+	text-align: center;
+	white-space: nowrap;
 }
 
-#logout{
-	    text-decoration: none;
-		color:rgb(37, 37, 37);
-		position: absolute;
-		top:94%;
-		left: 1%;
+#logout {
+	text-decoration: none;
+	color: rgb(37, 37, 37);
+	position: absolute;
+	top: 94%;
+	left: 1%;
 }
 
-.deleteButton{
-    position: absolute;
+.deleteButton {
+	position: absolute;
 	transform: translate(-50%, -50%);
-    /* 位置の調整（環境に合わせて数値を変更してください） */
-    top: 90%;
-    left: 93%; 
+	/* 位置の調整（環境に合わせて数値を変更してください） */
+	top: 90%;
+	left: 93%;
 	color: #333;
 }
 
-#selectedDate{
+#selectedDate {
 	text-align: center;
 	justify-self: center;
 	font-size: 120%;
@@ -43,232 +44,300 @@ form{
 }
 
 
-.edit_genreButton{
-    position: absolute;
-    
-    /* 位置の調整（環境に合わせて数値を変更してください） */
-    top: -70%;
-    left: 80%; 
+.edit_genreButton {
+	position: absolute;
+
+	/* 位置の調整（環境に合わせて数値を変更してください） */
+	top: -70%;
+	left: 80%;
 }
 
-.edit_genreImage{
+.edit_itemButton {
+	position: absolute;
+	top: 2em;
+	left: 86%;
+}
+
+.edit_genreImage {
 	color: #333;
 }
 
 .line-text {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  font-size: 110%;
-  font-weight: bold;
-  color :rgb(37, 37, 37)
+	display: flex;
+	align-items: center;
+	text-align: center;
+	font-size: 110%;
+	font-weight: bold;
+	color: rgb(37, 37, 37)
 }
-.line-text::before, .line-text::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid rgb(211, 201, 173); /* 線の色や太さ */
-}
-.line-text::before {
-  margin-right: 1em; /* 文字と左線の間隔 */
-}
+
+.line-text::before,
 .line-text::after {
-  margin-left: 1em; /* 文字と右線の間隔 */
+	content: '';
+	flex: 1;
+	border-bottom: 1px solid rgb(211, 201, 173);
+	/* 線の色や太さ */
 }
 
-.details{
-    text-align: center;
-    margin: 10px 0;
+.line-text::before {
+	margin-right: 1em;
+	/* 文字と左線の間隔 */
+}
+
+.line-text::after {
+	margin-left: 1em;
+	/* 文字と右線の間隔 */
+}
+
+.details {
+	text-align: center;
+	margin: 10px 0;
 	justify-self: center;
 }
 
+#detail {
+	font-weight: bold;
+	font-size: 140%;
+}
 
-.genres{
-    border-radius: 5px;
-    display: block;
-    width: 80%;
-    padding: 0;
-    box-sizing: border-box;
+#detail_genre {
+	border-radius: 5px;
+	display: block;
+	width: 30vh;
+	padding: .1rem 1rem .2rem;
+	box-sizing: border-box;
 
-    text-decoration: none;
-    text-align: center;
-    margin: 10px 0;
+	text-decoration: none;
+	text-align: center;
+	margin: 10px 0;
+	justify-self: center;
+	overflow-wrap: break-word;
+}
+
+#detail_price {
+	text-decoration:underline;
+}
+
+#detail_comment {
+	font-size: 18px;
+}
+
+#addItemButton {
+	text-align: center;
+	margin: 10px 0;
+	justify-self: center;
+
+
+}
+
+
+.genres {
+	border-radius: 5px;
+	display: block;
+	width: 80%;
+	padding: .1rem 1rem .2rem;
+	box-sizing: border-box;
+
+	text-decoration: none;
+	text-align: center;
+	margin: 10px 0;
+	justify-self: center;
+	overflow-wrap: break-word;
+}
+
+#allGenreView {
+	border: 1px solid rgb(182, 175, 152);
+	background: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
+	border-radius: 100px;
+	display: block;
+	width: 80%;
+	padding: .2rem 1rem .3rem;
+	box-sizing: border-box;
+
+	text-decoration: none;
+	text-align: center;
+	margin: 10px 0;
 	justify-self: center;
 }
 
-.popUpText{
-	
-    text-align: center;
-    margin: 10px 0;
+.popUpText {
+
+	text-align: center;
+	margin: 10px 0;
 	justify-self: center;
 	font-size: 120%;
 	font-weight: bold;
-	color:rgb(37, 37, 37)
-	
+	color: rgb(37, 37, 37)
 }
 
 input[type="checkbox"] {
-  position: relative;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #000;
-  border-radius: 3px;
-  vertical-align: -5px;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+	position: relative;
+	width: 16px;
+	height: 16px;
+	border: 1px solid #000;
+	border-radius: 3px;
+	vertical-align: -5px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 
 }
 
 input[type="checkbox"]:checked:before {
-  position: absolute;
-  top: 1px;
-  left: 4px;
-  transform: rotate(50deg);
-  width: 4px;
-  height: 8px;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-  border-radius: 3px;
-  content: '';
+	position: absolute;
+	top: 1px;
+	left: 4px;
+	transform: rotate(50deg);
+	width: 4px;
+	height: 8px;
+	border-right: 2px solid #000;
+	border-bottom: 2px solid #000;
+	border-radius: 3px;
+	content: '';
 }
 
-.noBorderTable{
-	border: none ;
+.noBorderTable {
+	border: none;
 	box-shadow: none;
 	border-collapse: collapse;
 }
 
 #calendar {
-		max-width: 100vw;
-		max-height: 90vh;
-		margin: 0px auto;
-	}
- 
- 
+	max-width: 100vw;
+	max-height: 90vh;
+	margin: 0px auto;
+}
+
+
 aside_left {
-    background-color: rgb(247, 250, 222);
-    height: 90%;
-    width: 13%;
-    float: left;
-	overflow: auto;
-	
+	background-color: rgb(247, 250, 222);
+	height: 90%;
+	width: 13%;
+	float: left;
+	overflow-y: auto;
+	overflow-x: hidden;
+
 }
 
 aside_right {
-    background-color: rgb(247, 250, 222);
-    height: 90%;
-    width: 17%;
-    float: left;
-	overflow: auto;
+	background-color: rgb(247, 250, 222);
+	height: 90%;
+	width: 17%;
+	float: left;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
- 
+
 article {
-    background-color: rgb(255, 255, 255);
-    height: 90%;
-    width: 70%;
-    float: left;
-	overflow: auto;
-}
- 
-footer {
-    background: rgb(7, 192, 169);
-    height: 10%;
-    width: 100%;
-    clear: both;
+	background-color: rgb(255, 255, 255);
+	height: 90%;
+	width: 70%;
+	float: left;
 	overflow: auto;
 }
 
-#sumThisMonth{
+footer {
+	background: rgb(7, 192, 169);
+	height: 10%;
+	width: 100%;
+	clear: both;
+	overflow: auto;
+}
+
+#sumThisMonth {
 	color: rgb(247, 250, 222);
 	font-weight: bold;
 	text-align: center;
 	font-size: 2rem;
 	position: absolute;
 	transform: translate(-50%, -50%);
-	top:90.5%;
+	top: 90.5%;
 	left: 50%;
 	white-space: nowrap;
 }
 
-#sum{
+#sum {
 	color: rgb(247, 250, 222);
 	font-weight: bold;
 	position: absolute;
 	transform: translate(-100%, -50%);
-	top:93%;
+	top: 93%;
 	left: 98%;
 	white-space: nowrap;
 }
 
 .fc .fc-toolbar-title {
-  font-size: 2rem;
-  font-weight: bold;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top:5%;
-  left: 50%;
-  color:rgb(37, 37, 37)
+	font-size: 2rem;
+	font-weight: bold;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 5%;
+	left: 50%;
+	color: rgb(37, 37, 37)
 }
 
 .fc {
-  position: relative; /* Ensure the calendar is the reference point */
+	position: relative;
+	/* Ensure the calendar is the reference point */
 }
 
 .fc .fc-button-primary {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5; /* Keep it above the calendar content */
-  background-color:#333;
-  border-color: #333;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 5;
+	/* Keep it above the calendar content */
+	background-color: #333;
+	border-color: #333;
 }
 
 /* チェックボックス（input）を非表示にする */
 .popup-toggle {
-  display: none;
+	display: none;
 }
 
 /* 開くボタンのスタイル */
 .popup-open {
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  margin: 10px;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-block;
+	margin: 10px;
 }
 
 /* オーバーレイ（背景）の初期状態は非表示 */
 .popup-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
 }
 
 /* チェックが入った（開いた）ときにオーバーレイを表示 */
-.popup-toggle:checked + .popup-open + .popup-overlay {
-  display: block;
+.popup-toggle:checked+.popup-open+.popup-overlay {
+	display: block;
 }
 
 /* モーダルウィンドウのスタイル */
 .popup-window {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
 }
 
 /* 閉じるボタンのスタイル */
 .popup-close {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  color: #333;
-  cursor: pointer;
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	color: #333;
+	cursor: pointer;
 }

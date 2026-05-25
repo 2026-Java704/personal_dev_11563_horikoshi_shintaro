@@ -12,10 +12,8 @@
 <body>
 	<aside_left>
 		<div id="menu">
+			<a th:href="@{/calendar(showAll=true)}" id="allGenreView">全項目を表示</a>
 
-			<a th:href="@{/calendar(showAll=true)}">全項目を表示</a>
-			<br>
-			<br>
 			<div class="line-text">収入</div>
 
 			<div th:each="genre:${genres_income}" style="position: relative;">
@@ -40,10 +38,10 @@
 					</label>
 					<div class="popup-overlay">
 						<div class="popup-window">
-							<p class="popup-text">
+							<p class="popup-text" style="position: relative;">
 
-							<p class="popUpText" style="position: relative;">
-								ジャンル更新
+							<p class="popUpText">
+								タグを編集
 							</p>
 
 
@@ -73,13 +71,12 @@
 								</table>
 								<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
 								<br>
-								<button class="centerButton">変更</button>
+								<button class="centerButton">更新</button>
 							</form>
 
 							<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">
 								<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em"
 									height="1.5em" viewBox="0 0 24 24">
-									<title xmlns="">delete</title>
 									<path fill="currentColor"
 										d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 								</svg>
@@ -127,7 +124,7 @@
 							<p class="popup-text" style="position: relative;">
 
 							<p class="popUpText">
-								ジャンル編集
+								タグを編集
 							</p>
 
 							<form action="/calendar" method="get">
@@ -156,13 +153,12 @@
 								</table>
 								<input type="hidden" name="editGenre_id" th:value="${selectedGenre.id}">
 								<br>
-								<button class="centerButton">変更</button>
+								<button class="centerButton">更新</button>
 							</form>
 
 							<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">
 								<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em"
 									height="1.5em" viewBox="0 0 24 24">
-									<title xmlns="">delete</title>
 									<path fill="currentColor"
 										d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 								</svg>
@@ -198,7 +194,7 @@
 					<p class="popup-text">
 
 					<p class="popUpText">
-						ジャンル追加
+						タグを追加
 					</p>
 
 					<form action="/calendar" method="get">
@@ -335,29 +331,48 @@
 	</article>
 
 	<aside_right>
-		<div id="detail">
-			<div id="selectedDate">[[${selectedDate}]]</div>
+		<br>
+		<div id="selectedDate">[[${selectedDate}]]</div>
 
-			<br>
+		<div th:if="${selectedItem}" class="details" style="position: relative;">
+			<div id="detail">
+				<div id="detail_genre"
+					th:style="'background: ' + ${selectedItem.genre.getColorHex()} + '; color: ' + ${selectedItem.genre.getInvetColorHex()}">
+					[[${selectedItem.genre.genreName}]]
+				</div>
+				<br>
 
-			<div th:if="${selectedItem}" class="details">
 				[[${selectedItem.itemName}]]
-				<br>
-				[[${selectedItem.getPriceWithSignString()}]]円
-				<br>
-				[[${selectedItem.genre.genreName}]]
-				<br>
-				[[${selectedItem.comment}]]
 
+				<div id="detail_price">
+					[[${selectedItem.getPriceWithSignString()}]]円
+				</div>
 
+				<div id="detail_comment">
+					<br>
+					[[${selectedItem.comment}]]
+				</div>
+
+			</div>
+
+			<div class="edit_itemButton">
 				<input type="checkbox" id="popup_editItem" class="popup-toggle">
-				<label class="popup-open" for="popup_editItem">更新マーク□</label>
+				<label class="popup-open" for="popup_editItem">
+					<svg class="edit_genreImage" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+						viewBox="0 0 24 24">
+						<title xmlns="">edit-filled</title>
+						<path fill="currentColor"
+							d="M5 21h14c1.1 0 2-.9 2-2v-8h-2v8H5V5h8V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2" />
+						<path fill="currentColor"
+							d="M7 14v2c0 .55.45 1 1 1h2c.27 0 .52-.11.71-.29l7.65-7.65l-3.41-3.41L7.3 13.3a1 1 0 0 0-.29.71Zm13.71-7.29a.996.996 0 0 0 0-1.41l-2-2a.996.996 0 0 0-1.41 0l-1.65 1.65l3.41 3.41z" />
+					</svg>
+				</label>
 				<div class="popup-overlay">
 					<div class="popup-window">
-						<p class="popup-text">
+						<p class="popup-text" style="position: relative;">
 
 						<p class="popUpText">
-							項目更新
+							項目を編集
 						</p>
 
 						<form action="/calendar" method="get">
@@ -375,7 +390,7 @@
 									</td>
 								</tr>
 								<tr>
-									<th>ジャンル</th>
+									<th>タグ</th>
 									<td>
 										<select name="editItem_genreId">
 											<option th:each="genre:${genres}" th:value="${genre.id}"
@@ -402,7 +417,13 @@
 							<button class="centerButton">更新</button>
 						</form>
 
-						<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">この項目を削除</a>
+						<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">
+							<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+								viewBox="0 0 24 24">
+								<path fill="currentColor"
+									d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
+							</svg>
+						</a>
 
 
 						</p>
@@ -417,79 +438,84 @@
 						</label>
 					</div>
 				</div>
+			</div>
 
-				<input type="checkbox" id="popup_addItem" class="popup-toggle" th:if="${selectedDate !=null}">
-				<label class="popup-open" for="popup_addItem">
-					<div class="centerButton">
-						+この日に追加
-					</div>
-				</label>
-				<div class="popup-overlay">
-					<div class="popup-window">
-						<p class="popup-text">
+		</div>
 
-						<p class="popUpText">
-							項目追加
-						</p>
+		<div id="addItemButton">
+			<input type="checkbox" id="popup_addItem" class="popup-toggle" th:if="${selectedDate !=null}">
+			<label class="popup-open" for="popup_addItem">
+				<div class="centerButton">
+					+この日に追加
+				</div>
+			</label>
+			<div class="popup-overlay">
+				<div class="popup-window">
+					<p class="popup-text">
 
-						<form action="/calendar" method="get">
-							<table border="1" class="noBorderTable">
-								<tr>
-									<th>日付</th>
-									<td>
-										[[${selectedDate}]]
-									</td>
-								</tr>
-								<tr>
-									<th>名前</th>
-									<td>
-										<input type="text" name="addItem_name">
-									</td>
-								</tr>
-								<tr>
-									<th>ジャンル</th>
-									<td>
-										<select name="addItem_genreId">
-											<option th:each="genre:${genres}" th:value="${genre.id}">
-												[[${genre.genreName}]]
-											</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<th>値段</th>
-									<td>
-										<input type="number" name="addItem_price">
-									</td>
-								</tr>
-								<tr>
-									<th>コメント</th>
-									<td>
-										<textarea name="addItem_comment"></textarea>
-									</td>
-								</tr>
-							</table>
-							<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
-							<br>
-							<button class="centerButton">追加</button>
-						</form>
+					<p class="popUpText">
+						項目を追加
+					</p>
+
+					<form action="/calendar" method="get">
+						<table border="1" class="noBorderTable">
+							<tr>
+								<th>日付</th>
+								<td>
+									[[${selectedDate}]]
+								</td>
+							</tr>
+							<tr>
+								<th>名前</th>
+								<td>
+									<input type="text" name="addItem_name">
+								</td>
+							</tr>
+							<tr>
+								<th>タグ</th>
+								<td>
+									<select name="addItem_genreId">
+										<option th:each="genre:${genres}" th:value="${genre.id}">
+											[[${genre.genreName}]]
+										</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th>値段</th>
+								<td>
+									<input type="number" name="addItem_price">
+								</td>
+							</tr>
+							<tr>
+								<th>コメント</th>
+								<td>
+									<textarea name="addItem_comment"></textarea>
+								</td>
+							</tr>
+						</table>
+						<input type="hidden" name="addItem_addDate" th:value="${selectedDate}">
+						<br>
+						<button class="centerButton">追加</button>
+					</form>
 
 
-						</p>
-						<label class="popup-close" for="popup_addItem">
-							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-								class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-								<circle cx="8" cy="8" r="8" fill="currentColor" stroke="none" />
-								<path
-									d="M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
-									fill="#ffffff" />
-							</svg>
-						</label>
-					</div>
+					</p>
+					<label class="popup-close" for="popup_addItem">
+						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+							class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+							<circle cx="8" cy="8" r="8" fill="currentColor" stroke="none" />
+							<path
+								d="M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
+								fill="#ffffff" />
+						</svg>
+					</label>
+
 				</div>
 
 			</div>
 		</div>
+
 	</aside_right>
 
 	<footer>
