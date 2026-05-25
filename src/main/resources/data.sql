@@ -6,22 +6,22 @@ INSERT INTO users(user_name,email,password) VALUES('test', 'test','test');
 INSERT INTO users(user_name,email,password) VALUES('test2', 'test2','test2');
 
 -- カテゴリーテーブルデータ
---田中太郎のもの
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('食費', FALSE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('日用品', FALSE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('交通費', FALSE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('交際費', FALSE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('水道光熱費', FALSE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('住居費', FALSE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('通信費', FALSE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('娯楽費', FALSE, '#FF0000FF', 1);
+--田中太郎
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('食費', FALSE, '#ef476f', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('日用品', FALSE, '#f78c6b', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('交通費', FALSE, '#ffd166', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('交際費', FALSE, '#83d483', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('水道光熱費', FALSE, '#06d6a0', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('住居費', FALSE, '#0cb0a9', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('通信費', FALSE, '#118ab2', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('娯楽費', FALSE, '#073b4c', 1);
 
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('給与', TRUE, '#FF0000FF', 1);
-INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('副業', TRUE, '#FF0000FF', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('給与', TRUE, '#baed00', 1);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('副業', TRUE, '#dbf679', 1);
 
 
 -- 項目テーブルデータ
---　INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('食事代', 1, 7, 1200, '2026/04/01');
+--田中太郎
 INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('家賃', 1, 6, 62000, '2026/04/01');
 INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('スマホ代', 1, 7, 4500, '2026/04/01');
 INSERT INTO items(item_name, user_id, genre_id, price,add_date, comment) VALUES('ランチ', 1, 1, 800, '2026/04/02','コンビニで購入');
