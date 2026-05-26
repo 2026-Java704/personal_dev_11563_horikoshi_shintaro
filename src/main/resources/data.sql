@@ -15,10 +15,17 @@ INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('水道光熱�
 INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('住居費', FALSE, '#0cb0a9', 1);
 INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('通信費', FALSE, '#118ab2', 1);
 INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('娯楽費', FALSE, '#073b4c', 1);
-
 INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('給与', TRUE, '#baed00', 1);
 INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('副業', TRUE, '#dbf679', 1);
 
+--鈴木一郎
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('食費', FALSE, '#01befe', 2);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('日用品', FALSE, '#ffdd00', 2);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('交通費', FALSE, '#ff7d00', 2);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('交際費', FALSE, '#ff006d', 2);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('サブスク', FALSE, '#adff02', 2);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('趣味', FALSE, '#8f00ff', 2);
+INSERT INTO genres(genre_name, is_income, color, user_id) VALUES('バイト代', TRUE, '#322e33', 2);
 
 -- 項目テーブルデータ
 --田中太郎
@@ -41,3 +48,23 @@ INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('アプ�
 INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('ガス代', 1, 5, 4200, '2026/04/26');
 INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('シャンプー', 1, 2, 700, '2026/04/27');
 INSERT INTO items(item_name, user_id, genre_id, price,add_date, comment) VALUES('プレゼント', 1, 4, 4500, '2026/04/30','誕生日');
+
+--鈴木一郎
+INSERT INTO items(item_name, user_id, genre_id, price,add_date, comment) VALUES('お弁当', 2, 11, 700, '2026/05/03','コンビニで購入');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('本', 2, 16, 1200, '2026/05/04');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('レンタカー', 2, 13, 5300, '2026/05/07');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date, comment) VALUES('飲み会', 2, 14, 3000, '2026/05/10','旧友と');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('ノートとペン', 2, 12, 1000, '2026/05/11');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('ゲーム', 2, 16, 5200, '2026/05/15');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('本', 2, 16, 1200, '2026/05/20');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('お給料', 2, 17, 60000, '2026/05/25');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('AI', 2, 15, 1400, '2026/05/25');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('新幹線', 2, 13, 21000, '2026/05/29');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('夕食', 2, 11, 1600, '2026/05/29');
+INSERT INTO items(item_name, user_id, genre_id, price,add_date) VALUES('夕食', 2, 11, 1900, '2026/05/30');
+
+
+
+
+
+
