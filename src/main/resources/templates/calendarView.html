@@ -76,7 +76,7 @@
 
 							<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">
 								<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em"
-									height="1.5em" viewBox="0 0 24 24">
+									height="1.5em" viewBox="0 0 24 24"  onclick="return confirm('このタグを削除しますか？')">
 									<path fill="currentColor"
 										d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 								</svg>
@@ -158,7 +158,7 @@
 
 							<a th:href="@{/calendar(deleteGenre_id=${selectedGenre.id})}">
 								<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em"
-									height="1.5em" viewBox="0 0 24 24">
+									height="1.5em" viewBox="0 0 24 24" onclick="return confirm('このタグを削除しますか？')">
 									<path fill="currentColor"
 										d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 								</svg>
@@ -421,7 +421,7 @@
 
 						<a th:href="@{/calendar(deleteItem_id=${selectedItem.id})}">
 							<svg class="deleteButton" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
-								viewBox="0 0 24 24">
+								viewBox="0 0 24 24" onclick="return confirm('この項目を削除しますか？')">
 								<path fill="currentColor"
 									d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 							</svg>
